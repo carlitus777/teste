@@ -1,1 +1,638 @@
---[[ Obfuscated by Carlos - Advanced Protection ]]local _={game:GetService("HttpService"),game:GetService("Players"),game:GetService("ReplicatedStorage"),Instance.new,UDim2.new,Color3.fromRGB,Enum.Font.GothamBold,Enum.Font.Gotham,task.spawn,task.wait,pcall}local __=_[2].LocalPlayer;local ___="https://a5d33e79-eeee-48d9-930f-9ce66213b166-00-9dep1zxqcpf8.janeway.replit.dev/verify?key="local ____=_[4]("ScreenGui")____.Name="KeySystem"____.ResetOnSpawn=false;____.Parent=__:WaitForChild("PlayerGui")local _____=_[4]("Frame",____)_____.Size=_[5](0,350,0,200)_____.Position=_[5](0.5,-175,0.5,-100)_____.BackgroundColor3=_[6](25,25,35)_____.Active=true;_____.Draggable=true;_[4]("UICorner",_____).CornerRadius=UDim.new(0,12)local ______=_[4]("TextLabel",_____)______.Size=_[5](1,0,0,40)______.BackgroundTransparency=1;______.Text="🔑 INSIRA SUA KEY"______.TextColor3=Color3.new(1,1,1)______.Font=_[7]______.TextSize=18;local _______=_[4]("TextBox",_____)_______.Size=_[5](0.9,0,0,40)_______.Position=_[5](0.05,0,0.4,0)_______.PlaceholderText="Cole sua key aqui"_______.Text=""_______.TextColor3=Color3.new(1,1,1)_______.BackgroundColor3=_[6](35,35,50)_______.Font=_[8]_______.TextSize=14;_______.ClearTextOnFocus=false;_[4]("UICorner",_______).CornerRadius=UDim.new(0,8)local ________=_[4]("TextButton",_____)________.Size=_[5](0.9,0,0,40)________.Position=_[5](0.05,0,0.7,0)________.Text="VERIFICAR KEY"________.BackgroundColor3=_[6](255,0,150)________.TextColor3=Color3.new(1,1,1)________.Font=_[7]________.TextSize=15;_[4]("UICorner",________).CornerRadius=UDim.new(0,8)local _________=false;________.MouseButton1Click:Connect(function()if _______.Text==""then ________.Text="Digite uma key"return end;________.Text="Verificando..."local __________,___________=_[11](function()return game:HttpGet(___.._______. Text)end)if not __________ then ________.Text="Erro de conexão"return end;local ____________=_[1]:JSONDecode(___________)if ____________.status=="ok"then _________=true;____:Destroy()print("✅ Key válida, script liberado")else ________.Text="Key inválida"end end)repeat _[10]()until _________;print("🧠 BRAINROTS HUB carregando...")local _____________=__:WaitForChild("PlayerGui")local ______________={AutoCollect={Enabled=false,Interval=2},AutoUpgradeBrainrots={Enabled=false,Interval=2},AutoRebirth={Enabled=false,Interval=5},AutoSpeedUpgrade={Enabled=false,Interval=3},AutoBaseUpgrade={Enabled=false,Interval=3}}local _______________=false;local function ________________()if _______________ then return end;_______________=true;local _________________={"Slot1","Slot2","Slot3","Slot4","Slot5","Slot6","Slot7","Slot8","Slot9","Slot10","Slot11","Slot12","Slot13","Slot14","Slot15","Slot16","Slot17","Slot18","Slot19","Slot20","Slot21","Slot22","Slot23","Slot24","Slot25","Slot26","Slot27","Slot28","Slot29","Slot30"}for __________________,___________________ in ipairs(_________________)do _[11](function()_[3]:WaitForChild("RemoteEvents"):WaitForChild("CollectMoney"):FireServer(___________________)end)_[10](0.1)end;_______________=false end;_[9](function()while _[10](______________.AutoCollect.Interval)do if ______________.AutoCollect.Enabled then ________________()end end end)local ____________________=false;local function _____________________()if ____________________ then return end;____________________=true;local ______________________={"Slot2","Slot3","Slot4","Slot5","Slot1","Slot7","Slot8","Slot9","Slot10","Slot6","Slot11","Slot12","Slot13","Slot14","Slot15","Slot16","Slot17","Slot18","Slot19","Slot20","Slot21","Slot22","Slot23","Slot24","Slot25","Slot26","Slot27","Slot28","Slot29","Slot30"}for _______________________,________________________ in ipairs(______________________)do _[11](function()_[3]:WaitForChild("RemoteFunctions"):WaitForChild("UpgradeBrainrot"):InvokeServer(________________________)end)_[10](0.1)end;____________________=false end;_[9](function()while _[10](______________.AutoUpgradeBrainrots.Interval)do if ______________.AutoUpgradeBrainrots.Enabled then _____________________()end end end)local function _________________________()return _[11](function()_[3]:WaitForChild("RemoteFunctions"):WaitForChild("UpgradeCarry"):InvokeServer()end)end;local function __________________________()return _[11](function()_[3]:WaitForChild("RemoteFunctions"):WaitForChild("Rebirth"):InvokeServer()end)end;_[9](function()while _[10](______________.AutoRebirth.Interval)do if ______________.AutoRebirth.Enabled then __________________________()end end end)local function ___________________________()return _[11](function()_[3]:WaitForChild("RemoteFunctions"):WaitForChild("UpgradeSpeed"):InvokeServer(10)end)end;_[9](function()while _[10](______________.AutoSpeedUpgrade.Interval)do if ______________.AutoSpeedUpgrade.Enabled then ___________________________()end end end)local function ____________________________()return _[11](function()_[3]:WaitForChild("RemoteFunctions"):WaitForChild("UpgradeBase"):InvokeServer()end)end;_[9](function()while _[10](______________.AutoBaseUpgrade.Interval)do if ______________.AutoBaseUpgrade.Enabled then ____________________________()end end end)local _____________________________=_[4]("ScreenGui")_____________________________.Name="BrainrotsHub"_____________________________.ResetOnSpawn=false;_____________________________.Parent=_____________;local ______________________________=_[4]("Frame")______________________________.Size=_[5](0,450,0,600)______________________________.Position=_[5](0.5,-225,0.5,-300)______________________________.BackgroundColor3=_[6](25,25,35)______________________________.BorderSizePixel=0;______________________________.Active=true;______________________________.Draggable=true;______________________________.Parent=_____________________________;_[4]("UICorner",______________________________).CornerRadius=UDim.new(0,15)local _______________________________=_[4]("Frame")_______________________________.Size=_[5](1,0,0,60)_______________________________.BackgroundColor3=_[6](255,0,150)_______________________________.BorderSizePixel=0;_______________________________.Parent=______________________________;_[4]("UICorner",_______________________________).CornerRadius=UDim.new(0,15)local ________________________________=_[4]("Frame")________________________________.Size=_[5](1,0,0,15)________________________________.Position=_[5](0,0,1,-15)________________________________.BackgroundColor3=_[6](255,0,150)________________________________.BorderSizePixel=0;________________________________.Parent=_______________________________;local _________________________________=_[4]("TextLabel")_________________________________.Size=_[5](1,-20,0.5,0)_________________________________.Position=_[5](0,10,0,5)_________________________________.BackgroundTransparency=1;_________________________________.Text="🧠 BRAINROTS HUB"_________________________________.TextColor3=_[6](255,255,255)_________________________________.TextSize=22;_________________________________.Font=_[7]_________________________________.TextXAlignment=Enum.TextXAlignment.Left;_________________________________.Parent=_______________________________;local __________________________________=_[4]("TextLabel")__________________________________.Size=_[5](1,-20,0.3,0)__________________________________.Position=_[5](0,10,0.45,0)__________________________________.BackgroundTransparency=1;__________________________________.Text="Fuja do Tsunami"__________________________________.TextColor3=_[6](200,200,255)__________________________________.TextSize=13;__________________________________.Font=_[7]__________________________________.TextXAlignment=Enum.TextXAlignment.Left;__________________________________.Parent=_______________________________;local ___________________________________=_[4]("TextLabel")___________________________________.Size=_[5](1,-20,0,15)___________________________________.Position=_[5](0,10,1,-20)___________________________________.BackgroundTransparency=1;___________________________________.Text="Script feito por Carlos"___________________________________.TextColor3=_[6](200,200,200)___________________________________.TextSize=11;___________________________________.Font=_[8]___________________________________.TextXAlignment=Enum.TextXAlignment.Left;___________________________________.Parent=_______________________________;local ____________________________________=_[4]("TextButton")____________________________________.Size=_[5](0,40,0,40)____________________________________.Position=_[5](1,-50,0,10)____________________________________.BackgroundColor3=_[6](255,50,50)____________________________________.Text="X"____________________________________.TextColor3=_[6](255,255,255)____________________________________.TextSize=20;____________________________________.Font=_[7]____________________________________.Parent=_______________________________;_[4]("UICorner",____________________________________).CornerRadius=UDim.new(0,10)____________________________________.MouseButton1Click:Connect(function()_____________________________:Destroy()end)local _____________________________________=_[4]("Frame")_____________________________________.Size=_[5](1,-20,0,45)_____________________________________.Position=_[5](0,10,0,70)_____________________________________.BackgroundColor3=_[6](35,35,50)_____________________________________.BorderSizePixel=0;_____________________________________.Parent=______________________________;_[4]("UICorner",_____________________________________).CornerRadius=UDim.new(0,10)local ______________________________________=_[4]("TextButton")______________________________________.Size=_[5](0.48,0,0,35)______________________________________.Position=_[5](0.02,0,0.5,-17.5)______________________________________.BackgroundColor3=_[6](255,0,150)______________________________________.Text="🔄 AUTO"______________________________________.TextColor3=_[6](255,255,255)______________________________________.TextSize=16;______________________________________.Font=_[7]______________________________________.Parent=_____________________________________;_[4]("UICorner",______________________________________).CornerRadius=UDim.new(0,8)local _______________________________________=_[4]("TextButton")_______________________________________.Size=_[5](0.48,0,0,35)_______________________________________.Position=_[5](0.5,0,0.5,-17.5)_______________________________________.BackgroundColor3=_[6](50,50,70)_______________________________________.Text="✋ MANUAL"_______________________________________.TextColor3=_[6](200,200,200)_______________________________________.TextSize=16;_______________________________________.Font=_[7]_______________________________________.Parent=_____________________________________;_[4]("UICorner",_______________________________________).CornerRadius=UDim.new(0,8)local ________________________________________=_[4]("ScrollingFrame")________________________________________.Size=_[5](1,-20,1,-135)________________________________________.Position=_[5](0,10,0,125)________________________________________.BackgroundTransparency=1;________________________________________.BorderSizePixel=0;________________________________________.ScrollBarThickness=6;________________________________________.Parent=______________________________;local _________________________________________=_[4]("Frame")_________________________________________.Name="AutoContent"_________________________________________.Size=_[5](1,0,0,900)_________________________________________.BackgroundTransparency=1;_________________________________________.Visible=true;_________________________________________.Parent=________________________________________;_[4]("UIListLayout",_________________________________________).Padding=UDim.new(0,10)local __________________________________________=_[4]("Frame")__________________________________________.Name="ManualContent"__________________________________________.Size=_[5](1,0,0,600)__________________________________________.BackgroundTransparency=1;__________________________________________.Visible=false;__________________________________________.Parent=________________________________________;_[4]("UIListLayout",__________________________________________).Padding=UDim.new(0,10)local function ___________________________________________(____________________________________________,_____________________________________________,______________________________________________,_______________________________________________)local ________________________________________________=_[4]("Frame")________________________________________________.Size=_[5](1,-10,0,40)________________________________________________.BackgroundColor3=_[6](35,35,50)________________________________________________.BorderSizePixel=0;________________________________________________.Parent=______________________________________________;_[4]("UICorner",________________________________________________).CornerRadius=UDim.new(0,8)local _________________________________________________=_[4]("TextLabel")_________________________________________________.Size=_[5](0.7,0,1,0)_________________________________________________.Position=_[5](0,10,0,0)_________________________________________________.BackgroundTransparency=1;_________________________________________________.Text=____________________________________________;_________________________________________________.TextColor3=_[6](255,255,255)_________________________________________________.TextSize=14;_________________________________________________.Font=_[8]_________________________________________________.TextXAlignment=Enum.TextXAlignment.Left;_________________________________________________.Parent=________________________________________________;local __________________________________________________=_[4]("TextButton")__________________________________________________.Size=_[5](0,60,0,30)__________________________________________________.Position=_[5](1,-70,0.5,-15)__________________________________________________.BackgroundColor3=_____________________________________________ and _[6](0,200,0)or _[6](200,0,0)__________________________________________________.Text=_____________________________________________ and"ON"or"OFF"__________________________________________________.TextColor3=_[6](255,255,255)__________________________________________________.TextSize=14;__________________________________________________.Font=_[7]__________________________________________________.Parent=________________________________________________;_[4]("UICorner",__________________________________________________).CornerRadius=UDim.new(0,8)local ___________________________________________________=_____________________________________________;__________________________________________________.MouseButton1Click:Connect(function()___________________________________________________=not ___________________________________________________;__________________________________________________.BackgroundColor3=___________________________________________________ and _[6](0,200,0)or _[6](200,0,0)__________________________________________________.Text=___________________________________________________ and"ON"or"OFF"______________________________________________(___________________________________________________)end)end;local function ____________________________________________________(____________________________________________________,_____________________________________________________,______________________________________________________)local _______________________________________________________=_[4]("Frame")_______________________________________________________.Size=_[5](1,-10,0,45)_______________________________________________________.BackgroundColor3=_[6](35,35,50)_______________________________________________________.BorderSizePixel=0;_______________________________________________________.Parent=______________________________________________________;_[4]("UICorner",_______________________________________________________).CornerRadius=UDim.new(0,8)local ________________________________________________________=_[4]("TextButton")________________________________________________________.Size=_[5](0.9,0,0,35)________________________________________________________.Position=_[5](0.05,0,0.5,-17.5)________________________________________________________.BackgroundColor3=_[6](255,0,150)________________________________________________________.Text=____________________________________________________;________________________________________________________.TextColor3=_[6](255,255,255)________________________________________________________.TextSize=15;________________________________________________________.Font=_[7]________________________________________________________.Parent=_______________________________________________________;_[4]("UICorner",________________________________________________________).CornerRadius=UDim.new(0,8)________________________________________________________.MouseButton1Click:Connect(_____________________________________________________)end;___________________________________________("💰 Auto Collect (30 Slots)",false,function(_________________________________________________________)______________.AutoCollect.Enabled=_________________________________________________________;print(_________________________________________________________ and"✅ Auto Collect ATIVADO!"or"❌ Auto Collect DESATIVADO!")end,_________________________________________)___________________________________________("🧠 Auto Upgrade Brainrots (30 Slots)",false,function(__________________________________________________________)______________.AutoUpgradeBrainrots.Enabled=__________________________________________________________;print(__________________________________________________________ and"✅ Auto Upgrade Brainrots ATIVADO!"or"❌ Auto Upgrade Brainrots DESATIVADO!")end,_________________________________________)___________________________________________("🔄 Auto Rebirth",false,function(___________________________________________________________)______________.AutoRebirth.Enabled=___________________________________________________________;print(___________________________________________________________ and"✅ Auto Rebirth ATIVADO!"or"❌ Auto Rebirth DESATIVADO!")end,_________________________________________)___________________________________________("⚡ Auto Speed Upgrade",false,function(____________________________________________________________)______________.AutoSpeedUpgrade.Enabled=____________________________________________________________;print(____________________________________________________________ and"✅ Auto Speed Upgrade ATIVADO!"or"❌ Auto Speed Upgrade DESATIVADO!")end,_________________________________________)___________________________________________("🏠 Auto Base Upgrade",false,function(_____________________________________________________________)______________.AutoBaseUpgrade.Enabled=_____________________________________________________________;print(_____________________________________________________________ and"✅ Auto Base Upgrade ATIVADO!"or"❌ Auto Base Upgrade DESATIVADO!")end,_________________________________________)____________________________________________________("💰 Coletar Agora",function()print("💰 Coletando manualmente...")________________()end,__________________________________________)____________________________________________________("📦 Upgrade Carry",function()_________________________()end,__________________________________________)____________________________________________________("🧠 Upgrade Brainrots",function()print("🧠 Fazendo upgrade...")_____________________()end,__________________________________________)____________________________________________________("🔄 Rebirth Agora",function()__________________________()end,__________________________________________)____________________________________________________("⚡ Speed Upgrade",function()___________________________()end,__________________________________________)____________________________________________________("🏠 Base Upgrade",function()____________________________()end,__________________________________________)local function ______________________________________________________________(_______________________________________________________________) if _______________________________________________________________=="Auto"then _________________________________________.Visible=true;__________________________________________.Visible=false;______________________________________.BackgroundColor3=_[6](255,0,150)______________________________________.TextColor3=_[6](255,255,255)_______________________________________.BackgroundColor3=_[6](50,50,70)_______________________________________.TextColor3=_[6](200,200,200)else _________________________________________.Visible=false;__________________________________________.Visible=true;_______________________________________.BackgroundColor3=_[6](255,0,150)_______________________________________.TextColor3=_[6](255,255,255)______________________________________.BackgroundColor3=_[6](50,50,70)______________________________________.TextColor3=_[6](200,200,200)end end;______________________________________.MouseButton1Click:Connect(function()______________________________________________________________("Auto")end)_______________________________________.MouseButton1Click:Connect(function()______________________________________________________________("Manual")end)local ________________________________________________________________=_[4]("TextButton")________________________________________________________________.Size=_[5](0,50,0,50)________________________________________________________________.Position=_[5](0,10,0.5,-25)________________________________________________________________.BackgroundColor3=_[6](255,0,150)________________________________________________________________.Text="B"________________________________________________________________.TextColor3=_[6](255,255,255)________________________________________________________________.TextSize=28;________________________________________________________________.Font=_[7]________________________________________________________________.Parent=_____________________________;_[4]("UICorner",________________________________________________________________).CornerRadius=UDim.new(1,0)________________________________________________________________.MouseButton1Click:Connect(function()______________________________.Visible=not ______________________________.Visible end)print("✅ BRAINROTS HUB carregado!")print("👤 Script feito por Carlos")
+-- 🧠 BRAINROTS HUB - FUJA DO TSUNAMI 🧠
+-- Script feito por Carlos ❤️
+
+
+--[[ 🔐 KEY SYSTEM + HUB LOADER
+     Ofuscado • Cache • Anti-bug
+]]--
+
+local a,b,c,d,e = game,game:GetService("Players"),game:GetService("HttpService"),tick(),false
+local f = b.LocalPlayer
+local g = f:WaitForChild("PlayerGui")
+
+-- =====================
+-- CONFIG
+-- =====================
+local VERIFY_URL = "https://SEUSITE.repl.co/verify?key="
+local CACHE_NAME = "VALID_KEY_CACHE_V1"
+
+-- =====================
+-- CACHE
+-- =====================
+local function loadCache()
+    local ok,data = pcall(function()
+        return c:JSONDecode(a:GetService("HttpService"):GetAsync("https://httpbin.org/get"))
+    end)
+    return nil
+end
+
+local cachedKey = nil
+
+-- =====================
+-- GUI KEY
+-- =====================
+local K = Instance.new("ScreenGui")
+K.Name = "KeySystemUI"
+K.ResetOnSpawn = false
+K.Parent = g
+
+local F = Instance.new("Frame", K)
+F.Size = UDim2.fromScale(0.35,0.35)
+F.Position = UDim2.fromScale(0.325,0.325)
+F.BackgroundColor3 = Color3.fromRGB(20,20,20)
+F.BorderSizePixel = 0
+Instance.new("UICorner",F).CornerRadius = UDim.new(0,14)
+
+local T = Instance.new("TextLabel",F)
+T.Text = "🔐 KEY SYSTEM"
+T.Size = UDim2.fromScale(1,0.2)
+T.BackgroundTransparency = 1
+T.TextColor3 = Color3.fromRGB(255,255,255)
+T.Font = Enum.Font.GothamBold
+T.TextScaled = true
+
+local I = Instance.new("TextBox",F)
+I.PlaceholderText = "Cole sua key aqui"
+I.Size = UDim2.fromScale(0.9,0.2)
+I.Position = UDim2.fromScale(0.05,0.35)
+I.BackgroundColor3 = Color3.fromRGB(30,30,30)
+I.TextColor3 = Color3.fromRGB(255,255,255)
+I.ClearTextOnFocus = false
+Instance.new("UICorner",I).CornerRadius = UDim.new(0,8)
+
+local B = Instance.new("TextButton",F)
+B.Text = "VERIFICAR"
+B.Size = UDim2.fromScale(0.9,0.2)
+B.Position = UDim2.fromScale(0.05,0.62)
+B.BackgroundColor3 = Color3.fromRGB(60,120,255)
+B.TextColor3 = Color3.fromRGB(255,255,255)
+B.Font = Enum.Font.GothamBold
+Instance.new("UICorner",B).CornerRadius = UDim.new(0,8)
+
+local M = Instance.new("TextLabel",F)
+M.Size = UDim2.fromScale(1,0.15)
+M.Position = UDim2.fromScale(0,0.82)
+M.BackgroundTransparency = 1
+M.TextColor3 = Color3.fromRGB(255,80,80)
+M.TextScaled = true
+M.Font = Enum.Font.Gotham
+M.Text = ""
+
+-- =====================
+-- VERIFY
+-- =====================
+local function verifyKey(key)
+    local r
+    local ok = pcall(function()
+        r = c:JSONDecode(
+            game:HttpGet(VERIFY_URL .. key)
+        )
+    end)
+    if not ok then return "error" end
+    return r.status
+end
+
+-- =====================
+-- BUTTON
+-- =====================
+B.MouseButton1Click:Connect(function()
+    local key = I.Text
+    if key == "" then
+        M.Text = "Digite uma key"
+        return
+    end
+
+    M.Text = "Verificando..."
+
+    local status = verifyKey(key)
+
+    if status == "ok" then
+        cachedKey = key
+        M.TextColor3 = Color3.fromRGB(80,255,80)
+        M.Text = "Key válida! Abrindo..."
+        task.wait(1)
+        K:Destroy()
+
+        -- =====================
+        -- 🔓 HUB AQUI
+        -- =====================
+        loadstring(game:HttpGet("https://SEU_HUB_AQUI.lua"))()
+
+    elseif status == "banned" then
+        M.TextColor3 = Color3.fromRGB(255,60,60)
+        M.Text = "🚫 Você foi BANIDO"
+
+    elseif status == "invalid" then
+        M.TextColor3 = Color3.fromRGB(255,120,120)
+        M.Text = "Key inválida"
+
+    else
+        M.Text = "Erro de conexão"
+    end
+end)
+
+
+print("🧠 BRAINROTS HUB carregando...")
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+
+-- Aguardar o PlayerGui carregar
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+-- ═══════════════════════════════════════════════════
+--                  CONFIGURAÇÕES
+-- ═══════════════════════════════════════════════════
+
+local Settings = {
+    AutoCollect = {
+        Enabled = false,
+        Interval = 2
+    },
+    AutoUpgradeBrainrots = {
+        Enabled = false,
+        Interval = 2
+    },
+    AutoRebirth = {
+        Enabled = false,
+        Interval = 5
+    },
+    AutoSpeedUpgrade = {
+        Enabled = false,
+        Interval = 3
+    },
+    AutoBaseUpgrade = {
+        Enabled = false,
+        Interval = 3
+    },
+    CurrentTab = "Auto"
+}
+
+-- ═══════════════════════════════════════════════════
+--            FUNÇÃO DE AUTO COLLECT
+-- ═══════════════════════════════════════════════════
+
+local isCollecting = false
+
+local function CollectAllSlots()
+    if isCollecting then return end
+    isCollecting = true
+    
+    local slots = {"Slot1", "Slot2", "Slot3", "Slot4", "Slot5", "Slot6", "Slot7", "Slot8", "Slot9", "Slot10", "Slot11", "Slot12", "Slot13", "Slot14", "Slot15", "Slot16", "Slot17", "Slot18", "Slot19", "Slot20", "Slot21", "Slot22", "Slot23", "Slot24", "Slot25", "Slot26", "Slot27", "Slot28", "Slot29", "Slot30"}
+    
+    for _, slot in ipairs(slots) do
+        pcall(function()
+            local args = {slot}
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("CollectMoney"):FireServer(unpack(args))
+        end)
+        task.wait(0.1)
+    end
+    
+    isCollecting = false
+end
+
+task.spawn(function()
+    while task.wait(Settings.AutoCollect.Interval) do
+        if Settings.AutoCollect.Enabled then
+            CollectAllSlots()
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════
+--        FUNÇÃO DE AUTO UPGRADE BRAINROTS
+-- ═══════════════════════════════════════════════════
+
+local isUpgradingBrainrots = false
+
+local function UpgradeAllBrainrots()
+    if isUpgradingBrainrots then return end
+    isUpgradingBrainrots = true
+    
+    local slots = {"Slot2", "Slot3", "Slot4", "Slot5", "Slot1", "Slot7", "Slot8", "Slot9", "Slot10", "Slot6", "Slot11", "Slot12", "Slot13", "Slot14", "Slot15", "Slot16", "Slot17", "Slot18", "Slot19", "Slot20", "Slot21", "Slot22", "Slot23", "Slot24", "Slot25", "Slot26", "Slot27", "Slot28", "Slot29", "Slot30"}
+    
+    for _, slot in ipairs(slots) do
+        pcall(function()
+            local args = {slot}
+            ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("UpgradeBrainrot"):InvokeServer(unpack(args))
+        end)
+        task.wait(0.1)
+    end
+    
+    isUpgradingBrainrots = false
+end
+
+task.spawn(function()
+    while task.wait(Settings.AutoUpgradeBrainrots.Interval) do
+        if Settings.AutoUpgradeBrainrots.Enabled then
+            UpgradeAllBrainrots()
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════
+--            FUNÇÃO DE UPGRADE CARRY
+-- ═══════════════════════════════════════════════════
+
+local function UpgradeCarry()
+    local success, err = pcall(function()
+        ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("UpgradeCarry"):InvokeServer()
+    end)
+    
+    if success then
+        return true, "✅ Upgrade Carry executado!"
+    else
+        return false, "❌ Erro: " .. tostring(err)
+    end
+end
+
+-- ═══════════════════════════════════════════════════
+--            FUNÇÃO DE AUTO REBIRTH
+-- ═══════════════════════════════════════════════════
+
+local function AutoRebirth()
+    local success, err = pcall(function()
+        ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("Rebirth"):InvokeServer()
+    end)
+    
+    if success then
+        return true, "✅ Rebirth executado!"
+    else
+        return false, "❌ Erro: " .. tostring(err)
+    end
+end
+
+task.spawn(function()
+    while task.wait(Settings.AutoRebirth.Interval) do
+        if Settings.AutoRebirth.Enabled then
+            AutoRebirth()
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════
+--          FUNÇÃO DE UPGRADE SPEED
+-- ═══════════════════════════════════════════════════
+
+local function UpgradeSpeed()
+    local success, err = pcall(function()
+        local args = {10}
+        ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("UpgradeSpeed"):InvokeServer(unpack(args))
+    end)
+    
+    if success then
+        return true, "✅ Speed Upgrade executado!"
+    else
+        return false, "❌ Erro: " .. tostring(err)
+    end
+end
+
+task.spawn(function()
+    while task.wait(Settings.AutoSpeedUpgrade.Interval) do
+        if Settings.AutoSpeedUpgrade.Enabled then
+            UpgradeSpeed()
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════
+--            FUNÇÃO DE UPGRADE BASE
+-- ═══════════════════════════════════════════════════
+
+local function UpgradeBase()
+    local success, err = pcall(function()
+        ReplicatedStorage:WaitForChild("RemoteFunctions"):WaitForChild("UpgradeBase"):InvokeServer()
+    end)
+    
+    if success then
+        return true, "✅ Base Upgrade executado!"
+    else
+        return false, "❌ Erro: " .. tostring(err)
+    end
+end
+
+task.spawn(function()
+    while task.wait(Settings.AutoBaseUpgrade.Interval) do
+        if Settings.AutoBaseUpgrade.Enabled then
+            UpgradeBase()
+        end
+    end
+end)
+
+-- ═══════════════════════════════════════════════════
+--                      GUI
+-- ═══════════════════════════════════════════════════
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "BrainrotsHub"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = PlayerGui
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 450, 0, 600)
+MainFrame.Position = UDim2.new(0.5, -225, 0.5, -300)
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 15)
+
+-- Header
+local Header = Instance.new("Frame")
+Header.Size = UDim2.new(1, 0, 0, 60)
+Header.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+Header.BorderSizePixel = 0
+Header.Parent = MainFrame
+
+Instance.new("UICorner", Header).CornerRadius = UDim.new(0, 15)
+
+local HeaderFix = Instance.new("Frame")
+HeaderFix.Size = UDim2.new(1, 0, 0, 15)
+HeaderFix.Position = UDim2.new(0, 0, 1, -15)
+HeaderFix.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+HeaderFix.BorderSizePixel = 0
+HeaderFix.Parent = Header
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -20, 0.5, 0)
+Title.Position = UDim2.new(0, 10, 0, 5)
+Title.BackgroundTransparency = 1
+Title.Text = "🧠 BRAINROTS HUB"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 22
+Title.Font = Enum.Font.GothamBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = Header
+
+local GameName = Instance.new("TextLabel")
+GameName.Size = UDim2.new(1, -20, 0.3, 0)
+GameName.Position = UDim2.new(0, 10, 0.45, 0)
+GameName.BackgroundTransparency = 1
+GameName.Text = "Fuja do Tsunami"
+GameName.TextColor3 = Color3.fromRGB(200, 200, 255)
+GameName.TextSize = 13
+GameName.Font = Enum.Font.GothamBold
+GameName.TextXAlignment = Enum.TextXAlignment.Left
+GameName.Parent = Header
+
+local Subtitle = Instance.new("TextLabel")
+Subtitle.Size = UDim2.new(1, -20, 0, 15)
+Subtitle.Position = UDim2.new(0, 10, 1, -20)
+Subtitle.BackgroundTransparency = 1
+Subtitle.Text = "Script feito por Carlos"
+Subtitle.TextColor3 = Color3.fromRGB(200, 200, 200)
+Subtitle.TextSize = 11
+Subtitle.Font = Enum.Font.Gotham
+Subtitle.TextXAlignment = Enum.TextXAlignment.Left
+Subtitle.Parent = Header
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 40, 0, 40)
+CloseButton.Position = UDim2.new(1, -50, 0, 10)
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+CloseButton.Text = "X"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.TextSize = 20
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.Parent = Header
+
+Instance.new("UICorner", CloseButton).CornerRadius = UDim.new(0, 10)
+
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Tabs
+local TabFrame = Instance.new("Frame")
+TabFrame.Size = UDim2.new(1, -20, 0, 45)
+TabFrame.Position = UDim2.new(0, 10, 0, 70)
+TabFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+TabFrame.BorderSizePixel = 0
+TabFrame.Parent = MainFrame
+
+Instance.new("UICorner", TabFrame).CornerRadius = UDim.new(0, 10)
+
+local AutoTab = Instance.new("TextButton")
+AutoTab.Size = UDim2.new(0.48, 0, 0, 35)
+AutoTab.Position = UDim2.new(0.02, 0, 0.5, -17.5)
+AutoTab.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+AutoTab.Text = "🔄 AUTO"
+AutoTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoTab.TextSize = 16
+AutoTab.Font = Enum.Font.GothamBold
+AutoTab.Parent = TabFrame
+
+Instance.new("UICorner", AutoTab).CornerRadius = UDim.new(0, 8)
+
+local ManualTab = Instance.new("TextButton")
+ManualTab.Size = UDim2.new(0.48, 0, 0, 35)
+ManualTab.Position = UDim2.new(0.5, 0, 0.5, -17.5)
+ManualTab.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+ManualTab.Text = "✋ MANUAL"
+ManualTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+ManualTab.TextSize = 16
+ManualTab.Font = Enum.Font.GothamBold
+ManualTab.Parent = TabFrame
+
+Instance.new("UICorner", ManualTab).CornerRadius = UDim.new(0, 8)
+
+-- Content
+local ContentFrame = Instance.new("ScrollingFrame")
+ContentFrame.Size = UDim2.new(1, -20, 1, -135)
+ContentFrame.Position = UDim2.new(0, 10, 0, 125)
+ContentFrame.BackgroundTransparency = 1
+ContentFrame.BorderSizePixel = 0
+ContentFrame.ScrollBarThickness = 6
+ContentFrame.Parent = MainFrame
+
+local AutoContent = Instance.new("Frame")
+AutoContent.Name = "AutoContent"
+AutoContent.Size = UDim2.new(1, 0, 0, 900)
+AutoContent.BackgroundTransparency = 1
+AutoContent.Visible = true
+AutoContent.Parent = ContentFrame
+
+local AutoLayout = Instance.new("UIListLayout")
+AutoLayout.Padding = UDim.new(0, 10)
+AutoLayout.Parent = AutoContent
+
+local ManualContent = Instance.new("Frame")
+ManualContent.Name = "ManualContent"
+ManualContent.Size = UDim2.new(1, 0, 0, 600)
+ManualContent.BackgroundTransparency = 1
+ManualContent.Visible = false
+ManualContent.Parent = ContentFrame
+
+local ManualLayout = Instance.new("UIListLayout")
+ManualLayout.Padding = UDim.new(0, 10)
+ManualLayout.Parent = ManualContent
+
+-- Função para criar elementos
+local function CreateToggle(name, default, callback, parent)
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, -10, 0, 40)
+    frame.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+    frame.BorderSizePixel = 0
+    frame.Parent = parent
+    
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
+    
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0.7, 0, 1, 0)
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.BackgroundTransparency = 1
+    label.Text = name
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.TextSize = 14
+    label.Font = Enum.Font.Gotham
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Parent = frame
+    
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 60, 0, 30)
+    button.Position = UDim2.new(1, -70, 0.5, -15)
+    button.BackgroundColor3 = default and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
+    button.Text = default and "ON" or "OFF"
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.TextSize = 14
+    button.Font = Enum.Font.GothamBold
+    button.Parent = frame
+    
+    Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
+    
+    local enabled = default
+    
+    button.MouseButton1Click:Connect(function()
+        enabled = not enabled
+        button.BackgroundColor3 = enabled and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
+        button.Text = enabled and "ON" or "OFF"
+        callback(enabled)
+    end)
+end
+
+local function CreateButton(name, callback, parent)
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, -10, 0, 45)
+    frame.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+    frame.BorderSizePixel = 0
+    frame.Parent = parent
+    
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 8)
+    
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0.9, 0, 0, 35)
+    button.Position = UDim2.new(0.05, 0, 0.5, -17.5)
+    button.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+    button.Text = name
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.TextSize = 15
+    button.Font = Enum.Font.GothamBold
+    button.Parent = frame
+    
+    Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
+    
+    button.MouseButton1Click:Connect(callback)
+end
+
+-- AUTO TAB
+CreateToggle("💰 Auto Collect (30 Slots)", false, function(v)
+    Settings.AutoCollect.Enabled = v
+    print(v and "✅ Auto Collect ATIVADO!" or "❌ Auto Collect DESATIVADO!")
+end, AutoContent)
+
+CreateToggle("🧠 Auto Upgrade Brainrots (30 Slots)", false, function(v)
+    Settings.AutoUpgradeBrainrots.Enabled = v
+    print(v and "✅ Auto Upgrade Brainrots ATIVADO!" or "❌ Auto Upgrade Brainrots DESATIVADO!")
+end, AutoContent)
+
+CreateToggle("🔄 Auto Rebirth", false, function(v)
+    Settings.AutoRebirth.Enabled = v
+    print(v and "✅ Auto Rebirth ATIVADO!" or "❌ Auto Rebirth DESATIVADO!")
+end, AutoContent)
+
+CreateToggle("⚡ Auto Speed Upgrade", false, function(v)
+    Settings.AutoSpeedUpgrade.Enabled = v
+    print(v and "✅ Auto Speed Upgrade ATIVADO!" or "❌ Auto Speed Upgrade DESATIVADO!")
+end, AutoContent)
+
+CreateToggle("🏠 Auto Base Upgrade", false, function(v)
+    Settings.AutoBaseUpgrade.Enabled = v
+    print(v and "✅ Auto Base Upgrade ATIVADO!" or "❌ Auto Base Upgrade DESATIVADO!")
+end, AutoContent)
+
+-- MANUAL TAB
+CreateButton("💰 Coletar Agora", function()
+    print("💰 Coletando manualmente...")
+    CollectAllSlots()
+end, ManualContent)
+
+CreateButton("📦 Upgrade Carry", function()
+    local s, m = UpgradeCarry()
+    print(m)
+end, ManualContent)
+
+CreateButton("🧠 Upgrade Brainrots", function()
+    print("🧠 Fazendo upgrade...")
+    UpgradeAllBrainrots()
+end, ManualContent)
+
+CreateButton("🔄 Rebirth Agora", function()
+    local s, m = AutoRebirth()
+    print(m)
+end, ManualContent)
+
+CreateButton("⚡ Speed Upgrade", function()
+    local s, m = UpgradeSpeed()
+    print(m)
+end, ManualContent)
+
+CreateButton("🏠 Base Upgrade", function()
+    local s, m = UpgradeBase()
+    print(m)
+end, ManualContent)
+
+-- Tab System
+local function SwitchTab(tab)
+    if tab == "Auto" then
+        AutoContent.Visible = true
+        ManualContent.Visible = false
+        AutoTab.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+        AutoTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+        ManualTab.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+        ManualTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    else
+        AutoContent.Visible = false
+        ManualContent.Visible = true
+        ManualTab.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+        ManualTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+        AutoTab.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+        AutoTab.TextColor3 = Color3.fromRGB(200, 200, 200)
+    end
+end
+
+AutoTab.MouseButton1Click:Connect(function() SwitchTab("Auto") end)
+ManualTab.MouseButton1Click:Connect(function() SwitchTab("Manual") end)
+
+-- Toggle Button
+local ToggleBtn = Instance.new("TextButton")
+ToggleBtn.Size = UDim2.new(0, 50, 0, 50)
+ToggleBtn.Position = UDim2.new(0, 10, 0.5, -25)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+ToggleBtn.Text = "B"
+ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleBtn.TextSize = 28
+ToggleBtn.Font = Enum.Font.GothamBold
+ToggleBtn.Parent = ScreenGui
+
+Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(1, 0)
+
+ToggleBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
+
+print("✅ BRAINROTS HUB carregado!")
+print("👤 Script feito por Carlos")
