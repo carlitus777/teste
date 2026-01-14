@@ -2,134 +2,96 @@
 -- Script feito por Carlos ❤️
 
 
---[[ 🔐 KEY SYSTEM + HUB LOADER
-     Ofuscado • Cache • Anti-bug
-]]--
-
-local a,b,c,d,e = game,game:GetService("Players"),game:GetService("HttpService"),tick(),false
-local f = b.LocalPlayer
-local g = f:WaitForChild("PlayerGui")
-
--- =====================
--- CONFIG
--- =====================
-local VERIFY_URL = "https://SEUSITE.repl.co/verify?key="
-local CACHE_NAME = "VALID_KEY_CACHE_V1"
-
--- =====================
--- CACHE
--- =====================
-local function loadCache()
-    local ok,data = pcall(function()
-        return c:JSONDecode(a:GetService("HttpService"):GetAsync("https://httpbin.org/get"))
-    end)
-    return nil
-end
-
-local cachedKey = nil
-
--- =====================
--- GUI KEY
--- =====================
-local K = Instance.new("ScreenGui")
-K.Name = "KeySystemUI"
-K.ResetOnSpawn = false
-K.Parent = g
-
-local F = Instance.new("Frame", K)
-F.Size = UDim2.fromScale(0.35,0.35)
-F.Position = UDim2.fromScale(0.325,0.325)
-F.BackgroundColor3 = Color3.fromRGB(20,20,20)
-F.BorderSizePixel = 0
-Instance.new("UICorner",F).CornerRadius = UDim.new(0,14)
-
-local T = Instance.new("TextLabel",F)
-T.Text = "🔐 KEY SYSTEM"
-T.Size = UDim2.fromScale(1,0.2)
-T.BackgroundTransparency = 1
-T.TextColor3 = Color3.fromRGB(255,255,255)
-T.Font = Enum.Font.GothamBold
-T.TextScaled = true
-
-local I = Instance.new("TextBox",F)
-I.PlaceholderText = "Cole sua key aqui"
-I.Size = UDim2.fromScale(0.9,0.2)
-I.Position = UDim2.fromScale(0.05,0.35)
-I.BackgroundColor3 = Color3.fromRGB(30,30,30)
-I.TextColor3 = Color3.fromRGB(255,255,255)
-I.ClearTextOnFocus = false
-Instance.new("UICorner",I).CornerRadius = UDim.new(0,8)
-
-local B = Instance.new("TextButton",F)
-B.Text = "VERIFICAR"
-B.Size = UDim2.fromScale(0.9,0.2)
-B.Position = UDim2.fromScale(0.05,0.62)
-B.BackgroundColor3 = Color3.fromRGB(60,120,255)
-B.TextColor3 = Color3.fromRGB(255,255,255)
-B.Font = Enum.Font.GothamBold
-Instance.new("UICorner",B).CornerRadius = UDim.new(0,8)
-
-local M = Instance.new("TextLabel",F)
-M.Size = UDim2.fromScale(1,0.15)
-M.Position = UDim2.fromScale(0,0.82)
-M.BackgroundTransparency = 1
-M.TextColor3 = Color3.fromRGB(255,80,80)
-M.TextScaled = true
-M.Font = Enum.Font.Gotham
-M.Text = ""
-
--- =====================
--- VERIFY
--- =====================
-local function verifyKey(key)
-    local r
-    local ok = pcall(function()
-        r = c:JSONDecode(
-            game:HttpGet(VERIFY_URL .. key)
-        )
-    end)
-    if not ok then return "error" end
-    return r.status
-end
-
--- =====================
--- BUTTON
--- =====================
-B.MouseButton1Click:Connect(function()
-    local key = I.Text
-    if key == "" then
-        M.Text = "Digite uma key"
+-- =========================
+-- GUI DE KEY - BRAINROTS HUB
+-- =========================
+ 
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+ 
+local VERIFY_URL = "https://a5d33e79-eeee-48d9-930f-9ce66213b166-00-9dep1zxqcpf8.janeway.replit.dev/verify?key="
+ 
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "KeySystem"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
+ 
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(0, 350, 0, 200)
+Frame.Position = UDim2.new(0.5, -175, 0.5, -100)
+Frame.BackgroundColor3 = Color3.fromRGB(25,25,35)
+Frame.Active = true
+Frame.Draggable = true
+ 
+Instance.new("UICorner", Frame).CornerRadius = UDim.new(0,12)
+ 
+local Title = Instance.new("TextLabel", Frame)
+Title.Size = UDim2.new(1,0,0,40)
+Title.BackgroundTransparency = 1
+Title.Text = "🔑 INSIRA SUA KEY"
+Title.TextColor3 = Color3.new(1,1,1)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 18
+ 
+local Box = Instance.new("TextBox", Frame)
+Box.Size = UDim2.new(0.9,0,0,40)
+Box.Position = UDim2.new(0.05,0,0.4,0)
+Box.PlaceholderText = "Cole sua key aqui"
+Box.Text = ""
+Box.TextColor3 = Color3.new(1,1,1)
+Box.BackgroundColor3 = Color3.fromRGB(35,35,50)
+Box.Font = Enum.Font.Gotham
+Box.TextSize = 14
+Box.ClearTextOnFocus = false
+ 
+Instance.new("UICorner", Box).CornerRadius = UDim.new(0,8)
+ 
+local Button = Instance.new("TextButton", Frame)
+Button.Size = UDim2.new(0.9,0,0,40)
+Button.Position = UDim2.new(0.05,0,0.7,0)
+Button.Text = "VERIFICAR KEY"
+Button.BackgroundColor3 = Color3.fromRGB(255,0,150)
+Button.TextColor3 = Color3.new(1,1,1)
+Button.Font = Enum.Font.GothamBold
+Button.TextSize = 15
+ 
+Instance.new("UICorner", Button).CornerRadius = UDim.new(0,8)
+ 
+-- VERIFICAÇÃO
+local verified = false
+ 
+Button.MouseButton1Click:Connect(function()
+    if Box.Text == "" then
+        Button.Text = "Digite uma key"
         return
     end
-
-    M.Text = "Verificando..."
-
-    local status = verifyKey(key)
-
-    if status == "ok" then
-        cachedKey = key
-        M.TextColor3 = Color3.fromRGB(80,255,80)
-        M.Text = "Key válida! Abrindo..."
-        task.wait(1)
-        K:Destroy()
-
-        -- =====================
-        -- 🔓 HUB AQUI
-        -- =====================
-        loadstring(game:HttpGet("https://SEU_HUB_AQUI.lua"))()
-
-    elseif status == "banned" then
-        M.TextColor3 = Color3.fromRGB(255,60,60)
-        M.Text = "🚫 Você foi BANIDO"
-
-    elseif status == "invalid" then
-        M.TextColor3 = Color3.fromRGB(255,120,120)
-        M.Text = "Key inválida"
-
+ 
+    Button.Text = "Verificando..."
+ 
+    local success, response = pcall(function()
+        return game:HttpGet(VERIFY_URL .. Box.Text)
+    end)
+ 
+    if not success then
+        Button.Text = "Erro de conexão"
+        return
+    end
+ 
+    local data = HttpService:JSONDecode(response)
+ 
+    if data.status == "ok" then
+        verified = true
+        ScreenGui:Destroy()
+        print("✅ Key válida, script liberado")
     else
-        M.Text = "Erro de conexão"
+        Button.Text = "Key inválida"
     end
 end)
+ 
+-- BLOQUEIA O SCRIPT ATÉ VALIDAR
+repeat task.wait() until verified
 
 
 print("🧠 BRAINROTS HUB carregando...")
