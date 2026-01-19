@@ -1,43 +1,45 @@
 -- 🧠 BRAINROTS HUB - FUJA DO TSUNAMI 🧠
 -- Script feito por Carlos ❤️
 
+-- 🔑 UNIVERSAL KEY SYSTEM by Carlos
 
--- =========================
--- GUI DE KEY - BRAINROTS HUB
--- =========================
- 
+-- ====== CONFIG ======
+local VERIFY_URL = "https://a5d33e79-eeee-48d9-930f-9ce66213b166-00-9dep1zxqcpf8.janeway.replit.dev/verify?key="
+local GET_KEY_URL = "https://fir3.net/BTYBvFqHde"
+-- ====================
+
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
- 
-local VERIFY_URL = "https://a5d33e79-eeee-48d9-930f-9ce66213b166-00-9dep1zxqcpf8.janeway.replit.dev/verify?key="
- 
+local verified = false
+
 -- GUI
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "KeySystem"
+ScreenGui.Name = "UniversalKeySystem"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = player:WaitForChild("PlayerGui")
- 
+
 local Frame = Instance.new("Frame", ScreenGui)
-Frame.Size = UDim2.new(0, 350, 0, 200)
-Frame.Position = UDim2.new(0.5, -175, 0.5, -100)
+Frame.Size = UDim2.new(0, 360, 0, 230)
+Frame.Position = UDim2.new(0.5, -180, 0.5, -115)
 Frame.BackgroundColor3 = Color3.fromRGB(25,25,35)
 Frame.Active = true
 Frame.Draggable = true
- 
 Instance.new("UICorner", Frame).CornerRadius = UDim.new(0,12)
- 
+
+-- Título
 local Title = Instance.new("TextLabel", Frame)
 Title.Size = UDim2.new(1,0,0,40)
 Title.BackgroundTransparency = 1
-Title.Text = "🔑 INSIRA SUA KEY"
+Title.Text = "🔑 SISTEMA DE KEY"
 Title.TextColor3 = Color3.new(1,1,1)
 Title.Font = Enum.Font.GothamBold
 Title.TextSize = 18
- 
+
+-- Caixa de texto
 local Box = Instance.new("TextBox", Frame)
 Box.Size = UDim2.new(0.9,0,0,40)
-Box.Position = UDim2.new(0.05,0,0.4,0)
+Box.Position = UDim2.new(0.05,0,0.32,0)
 Box.PlaceholderText = "Cole sua key aqui"
 Box.Text = ""
 Box.TextColor3 = Color3.new(1,1,1)
@@ -45,53 +47,84 @@ Box.BackgroundColor3 = Color3.fromRGB(35,35,50)
 Box.Font = Enum.Font.Gotham
 Box.TextSize = 14
 Box.ClearTextOnFocus = false
- 
 Instance.new("UICorner", Box).CornerRadius = UDim.new(0,8)
- 
-local Button = Instance.new("TextButton", Frame)
-Button.Size = UDim2.new(0.9,0,0,40)
-Button.Position = UDim2.new(0.05,0,0.7,0)
-Button.Text = "VERIFICAR KEY"
-Button.BackgroundColor3 = Color3.fromRGB(255,0,150)
-Button.TextColor3 = Color3.new(1,1,1)
-Button.Font = Enum.Font.GothamBold
-Button.TextSize = 15
- 
-Instance.new("UICorner", Button).CornerRadius = UDim.new(0,8)
- 
--- VERIFICAÇÃO
-local verified = false
- 
-Button.MouseButton1Click:Connect(function()
+
+-- Botão verificar
+local VerifyBtn = Instance.new("TextButton", Frame)
+VerifyBtn.Size = UDim2.new(0.9,0,0,38)
+VerifyBtn.Position = UDim2.new(0.05,0,0.55,0)
+VerifyBtn.Text = "VERIFICAR KEY"
+VerifyBtn.BackgroundColor3 = Color3.fromRGB(255,0,150)
+VerifyBtn.TextColor3 = Color3.new(1,1,1)
+VerifyBtn.Font = Enum.Font.GothamBold
+VerifyBtn.TextSize = 15
+Instance.new("UICorner", VerifyBtn).CornerRadius = UDim.new(0,8)
+
+-- Botão pegar key
+local GetKeyBtn = Instance.new("TextButton", Frame)
+GetKeyBtn.Size = UDim2.new(0.9,0,0,32)
+GetKeyBtn.Position = UDim2.new(0.05,0,0.78,0)
+GetKeyBtn.Text = "🔗 PEGAR KEY"
+GetKeyBtn.BackgroundColor3 = Color3.fromRGB(60,60,80)
+GetKeyBtn.TextColor3 = Color3.new(1,1,1)
+GetKeyBtn.Font = Enum.Font.Gotham
+GetKeyBtn.TextSize = 14
+Instance.new("UICorner", GetKeyBtn).CornerRadius = UDim.new(0,8)
+
+-- Abrir link da key
+GetKeyBtn.MouseButton1Click:Connect(function()
+    setclipboard(GET_KEY_URL)
+    GetKeyBtn.Text = "📋 LINK COPIADO!"
+    task.wait(1.5)
+    GetKeyBtn.Text = "🔗 PEGAR KEY"
+end)
+
+-- Verificação da key
+VerifyBtn.MouseButton1Click:Connect(function()
     if Box.Text == "" then
-        Button.Text = "Digite uma key"
+        VerifyBtn.Text = "DIGITE UMA KEY"
         return
     end
- 
-    Button.Text = "Verificando..."
- 
+
+    VerifyBtn.Text = "VERIFICANDO..."
+
     local success, response = pcall(function()
         return game:HttpGet(VERIFY_URL .. Box.Text)
     end)
- 
+
     if not success then
-        Button.Text = "Erro de conexão"
+        VerifyBtn.Text = "ERRO DE CONEXÃO"
         return
     end
- 
-    local data = HttpService:JSONDecode(response)
- 
+
+    local data
+    local ok = pcall(function()
+        data = HttpService:JSONDecode(response)
+    end)
+
+    if not ok or not data then
+        VerifyBtn.Text = "RESPOSTA INVÁLIDA"
+        return
+    end
+
     if data.status == "ok" then
         verified = true
         ScreenGui:Destroy()
-        print("✅ Key válida, script liberado")
+        print("✅ Key válida | Plano:", data.plan or "desconhecido")
+    elseif data.status == "banned" then
+        VerifyBtn.Text = "🚫 KEY BANIDA"
+    elseif data.status == "expired" then
+        VerifyBtn.Text = "⌛ KEY EXPIRADA"
     else
-        Button.Text = "Key inválida"
+        VerifyBtn.Text = "❌ KEY INVÁLIDA"
     end
 end)
- 
+
 -- BLOQUEIA O SCRIPT ATÉ VALIDAR
 repeat task.wait() until verified
+
+print("🔓 KEY VALIDADA - SCRIPT LIBERADO")
+
 
 
 print("🧠 BRAINROTS HUB carregando...")
