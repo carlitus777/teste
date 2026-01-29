@@ -1,19 +1,18 @@
--- 🔥 KAKA HUB V4 - FPS HUB COMPLETO 🔥
--- Criado com❤️
--- ✨ ATUALIZADO: Aimbot com detecção inteligente de times!
-
 --[[
 ════════════════════════════════════════════════════════════════
-    🔑 KAKA HUB V4 - SISTEMA DE KEYS
+    🔥 KAKA HUB V4 - FPS HUB COMPLETO COM SISTEMA DE KEYS 🔥
     Discord: https://discord.gg/u5VcCE7s2a
+    ✨ ATUALIZADO: Aimbot com detecção inteligente de times!
 ════════════════════════════════════════════════════════════════
 ]]--
 
+print("🔥 KAKA HUB V4 inicializando sistema de autenticação...")
+
 -- ═══════════════════════════════════════════════════════════
---  🔧 CONFIGURAÇÕES
+--  🔧 CONFIGURAÇÕES DAS KEYS
 -- ═══════════════════════════════════════════════════════════
 
-local CONFIG = {
+local KEY_CONFIG = {
     Keys = {
         "KAKA-2026-PREMIUM",
         "KAKA-VIP-GOLD",
@@ -52,9 +51,10 @@ local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
+local LocalPlayer = Players.LocalPlayer
 
 -- ═══════════════════════════════════════════════════════════
---  ✨ FUNÇÕES DE ANIMAÇÃO
+--  ✨ FUNÇÕES DE ANIMAÇÃO DO SISTEMA DE KEYS
 -- ═══════════════════════════════════════════════════════════
 
 local function Tween(object, goal, duration, style, direction)
@@ -78,7 +78,7 @@ local function PulseEffect(object)
 end
 
 -- ═══════════════════════════════════════════════════════════
---  🖼️ CRIAR INTERFACE
+--  🖼️ CRIAR INTERFACE DO SISTEMA DE KEYS
 -- ═══════════════════════════════════════════════════════════
 
 local function CreateKeySystem()
@@ -315,7 +315,7 @@ end
 -- ═══════════════════════════════════════════════════════════
 
 local function VerifyKey(key)
-    for _, validKey in ipairs(CONFIG.Keys) do
+    for _, validKey in ipairs(KEY_CONFIG.Keys) do
         if key == validKey then
             return true
         end
@@ -335,14 +335,14 @@ local function ShowStatus(label, message, isSuccess)
     
     Tween(label, {TextTransparency = 0}, 0.3)
     
-    task.wait(CONFIG.NotificationTime)
+    task.wait(KEY_CONFIG.NotificationTime)
     
     Tween(label, {TextTransparency = 1}, 0.3).Completed:Wait()
     label.Visible = false
 end
 
 -- ═══════════════════════════════════════════════════════════
---  🎮 SISTEMA PRINCIPAL
+--  🎮 SISTEMA DE AUTENTICAÇÃO
 -- ═══════════════════════════════════════════════════════════
 
 local function StartKeySystem(onSuccess)
@@ -435,7 +435,7 @@ local function StartKeySystem(onSuccess)
     
     elements.DiscordButton.MouseButton1Click:Connect(function()
         PulseEffect(elements.DiscordButton)
-        setclipboard(CONFIG.DiscordLink)
+        setclipboard(KEY_CONFIG.DiscordLink)
         ShowStatus(elements.StatusLabel, "📋 Link do Discord copiado!", true)
     end)
     
@@ -499,268 +499,252 @@ local function StartKeySystem(onSuccess)
 end
 
 -- ═══════════════════════════════════════════════════════════
---  🚀 INICIAR SISTEMA
+--  🚀 INICIAR SISTEMA E CARREGAR HUB
 -- ═══════════════════════════════════════════════════════════
 
 StartKeySystem(function()
     print("✅ Key verificada com sucesso!")
     print("🚀 Carregando KAKA HUB V4...")
     
-    --[[
-    ════════════════════════════════════════════════════════════════
-        📌 COLOQUE O CÓDIGO DO SEU HUB AQUI EMBAIXO
-    ════════════════════════════════════════════════════════════════
-    ]]--
+    -- ═══════════════════════════════════════════════════
+    --              🔥 SEU HUB COMEÇA AQUI 🔥
+    -- ═══════════════════════════════════════════════════
     
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "KAKA HUB V4";
-        Text = "Hub carregado com sucesso! ✅";
-        Duration = 5;
-    })
-    
-    -- Seu código do hub aqui...
-    
-end)
+    local Camera = workspace.CurrentCamera
+    local RunService = game:GetService("RunService")
+    local Teams = game:GetService("Teams")
 
-print("🔥 KAKA HUB V4 carregando...")
+    -- ═══════════════════════════════════════════════════
+    --                  CONFIGURAÇÕES DO HUB
+    -- ═══════════════════════════════════════════════════
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Camera = workspace.CurrentCamera
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-local Teams = game:GetService("Teams")
-
--- ═══════════════════════════════════════════════════
---                  CONFIGURAÇÕES
--- ═══════════════════════════════════════════════════
-
-local Settings = {
-    Aimbot = {
-        Enabled = false,
-        FOV = 150,
-        WallCheck = true,
-        TargetPart = "Head",
-        TeamCheck = true -- Nova opção para verificar times
-    },
-    ESP = {
-        Enabled = true,
-        BoxColor = Color3.fromRGB(255, 0, 255),
-        NameColor = Color3.fromRGB(255, 255, 255),
-        DistanceColor = Color3.fromRGB(0, 255, 255),
-        HealthBarEnabled = true
-    },
-    Teleport = {
-        SelectedPlayer = nil
+    local Settings = {
+        Aimbot = {
+            Enabled = false,
+            FOV = 150,
+            WallCheck = true,
+            TargetPart = "Head",
+            TeamCheck = true
+        },
+        ESP = {
+            Enabled = true,
+            BoxColor = Color3.fromRGB(255, 0, 255),
+            NameColor = Color3.fromRGB(255, 255, 255),
+            DistanceColor = Color3.fromRGB(0, 255, 255),
+            HealthBarEnabled = true
+        },
+        Teleport = {
+            SelectedPlayer = nil
+        }
     }
-}
 
--- ═══════════════════════════════════════════════════
---           FUNÇÕES DE DETECÇÃO DE TIMES
--- ═══════════════════════════════════════════════════
+    -- ═══════════════════════════════════════════════════
+    --           FUNÇÕES DE DETECÇÃO DE TIMES
+    -- ═══════════════════════════════════════════════════
 
-local function HasMultipleTeams()
-    -- Verifica se há mais de 1 time no jogo
-    local teamCount = 0
-    for _, team in pairs(Teams:GetTeams()) do
-        teamCount = teamCount + 1
+    local function HasMultipleTeams()
+        local teamCount = 0
+        for _, team in pairs(Teams:GetTeams()) do
+            teamCount = teamCount + 1
+        end
+        return teamCount > 1
     end
-    return teamCount > 1
-end
 
-local function IsEnemy(player)
-    if not Settings.Aimbot.TeamCheck then
-        return true -- Se TeamCheck está desativado, todos são alvos
-    end
-    
-    -- Se não há times ou só tem 1 time, todos são alvos válidos
-    if not HasMultipleTeams() then
+    local function IsEnemy(player)
+        if not Settings.Aimbot.TeamCheck then
+            return true
+        end
+        
+        if not HasMultipleTeams() then
+            return true
+        end
+        
+        if LocalPlayer.Team and player.Team then
+            return LocalPlayer.Team ~= player.Team
+        end
+        
         return true
     end
-    
-    -- Se há múltiplos times, verifica se é do time inimigo
-    if LocalPlayer.Team and player.Team then
-        return LocalPlayer.Team ~= player.Team
+
+    -- ═══════════════════════════════════════════════════
+    --                  FUNÇÕES ÚTEIS
+    -- ═══════════════════════════════════════════════════
+
+    local function IsVisible(targetChar)
+        if not Settings.Aimbot.WallCheck then return true end
+        
+        local char = LocalPlayer.Character
+        if not char then return false end
+        
+        local origin = char:FindFirstChild("HumanoidRootPart")
+        local target = targetChar:FindFirstChild(Settings.Aimbot.TargetPart)
+        
+        if not origin or not target then return false end
+        
+        local ray = Ray.new(origin.Position, (target.Position - origin.Position).Unit * 1000)
+        local hit = workspace:FindPartOnRayWithIgnoreList(ray, {char, Camera})
+        
+        return hit and hit:IsDescendantOf(targetChar)
     end
-    
-    -- Se não conseguir determinar o time, considera como alvo válido
-    return true
-end
 
--- ═══════════════════════════════════════════════════
---                  FUNÇÕES ÚTEIS
--- ═══════════════════════════════════════════════════
-
-local function IsVisible(targetChar)
-    if not Settings.Aimbot.WallCheck then return true end
-    
-    local char = LocalPlayer.Character
-    if not char then return false end
-    
-    local origin = char:FindFirstChild("HumanoidRootPart")
-    local target = targetChar:FindFirstChild(Settings.Aimbot.TargetPart)
-    
-    if not origin or not target then return false end
-    
-    local ray = Ray.new(origin.Position, (target.Position - origin.Position).Unit * 1000)
-    local hit = workspace:FindPartOnRayWithIgnoreList(ray, {char, Camera})
-    
-    return hit and hit:IsDescendantOf(targetChar)
-end
-
-local function GetClosestPlayerInFOV()
-    local closestPlayer = nil
-    local shortestDistance = Settings.Aimbot.FOV
-    
-    for _, player in pairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer and player.Character then
-            -- ✨ NOVA VERIFICAÇÃO: Só mira em inimigos
-            if IsEnemy(player) then
-                local char = player.Character
-                local humanoid = char:FindFirstChild("Humanoid")
-                local targetPart = char:FindFirstChild(Settings.Aimbot.TargetPart)
-                
-                if humanoid and humanoid.Health > 0 and targetPart then
-                    local screenPos, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
+    local function GetClosestPlayerInFOV()
+        local closestPlayer = nil
+        local shortestDistance = Settings.Aimbot.FOV
+        
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LocalPlayer and player.Character then
+                if IsEnemy(player) then
+                    local char = player.Character
+                    local humanoid = char:FindFirstChild("Humanoid")
+                    local targetPart = char:FindFirstChild(Settings.Aimbot.TargetPart)
                     
-                    if onScreen then
-                        local mousePos = UserInputService:GetMouseLocation()
-                        local distance = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
+                    if humanoid and humanoid.Health > 0 and targetPart then
+                        local screenPos, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
                         
-                        if distance < shortestDistance then
-                            if IsVisible(char) then
-                                closestPlayer = player
-                                shortestDistance = distance
+                        if onScreen then
+                            local mousePos = UserInputService:GetMouseLocation()
+                            local distance = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
+                            
+                            if distance < shortestDistance then
+                                if IsVisible(char) then
+                                    closestPlayer = player
+                                    shortestDistance = distance
+                                end
                             end
                         end
                     end
                 end
             end
         end
-    end
-    
-    return closestPlayer
-end
-
--- ═══════════════════════════════════════════════════
---                    AIMBOT
--- ═══════════════════════════════════════════════════
-
-RunService.RenderStepped:Connect(function()
-    if Settings.Aimbot.Enabled then
-        local target = GetClosestPlayerInFOV()
         
-        if target and target.Character then
-            local targetPart = target.Character:FindFirstChild(Settings.Aimbot.TargetPart)
+        return closestPlayer
+    end
+
+    -- ═══════════════════════════════════════════════════
+    --                    AIMBOT
+    -- ═══════════════════════════════════════════════════
+
+    RunService.RenderStepped:Connect(function()
+        if Settings.Aimbot.Enabled then
+            local target = GetClosestPlayerInFOV()
             
-            if targetPart then
-                Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetPart.Position)
+            if target and target.Character then
+                local targetPart = target.Character:FindFirstChild(Settings.Aimbot.TargetPart)
+                
+                if targetPart then
+                    Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetPart.Position)
+                end
             end
         end
+    end)
+
+    -- ═══════════════════════════════════════════════════
+    --                     ESP
+    -- ═══════════════════════════════════════════════════
+
+    local ESPObjects = {}
+
+    local function CreateESP(player)
+        if ESPObjects[player] then return end
+        
+        local esp = {
+            Box = Drawing.new("Square"),
+            Name = Drawing.new("Text"),
+            Distance = Drawing.new("Text"),
+            HealthBar = Drawing.new("Line"),
+            HealthBarBG = Drawing.new("Line")
+        }
+        
+        esp.Box.Thickness = 2
+        esp.Box.Filled = false
+        esp.Box.Color = Settings.ESP.BoxColor
+        esp.Box.Visible = false
+        esp.Box.ZIndex = 2
+        
+        esp.Name.Size = 14
+        esp.Name.Center = true
+        esp.Name.Outline = true
+        esp.Name.Color = Settings.ESP.NameColor
+        esp.Name.Visible = false
+        esp.Name.ZIndex = 2
+        
+        esp.Distance.Size = 12
+        esp.Distance.Center = true
+        esp.Distance.Outline = true
+        esp.Distance.Color = Settings.ESP.DistanceColor
+        esp.Distance.Visible = false
+        esp.Distance.ZIndex = 2
+        
+        esp.HealthBarBG.Thickness = 3
+        esp.HealthBarBG.Color = Color3.fromRGB(0, 0, 0)
+        esp.HealthBarBG.Visible = false
+        esp.HealthBarBG.ZIndex = 1
+        
+        esp.HealthBar.Thickness = 3
+        esp.HealthBar.Color = Color3.fromRGB(0, 255, 0)
+        esp.HealthBar.Visible = false
+        esp.HealthBar.ZIndex = 2
+        
+        ESPObjects[player] = esp
     end
-end)
 
--- ═══════════════════════════════════════════════════
---                     ESP
--- ═══════════════════════════════════════════════════
-
-local ESPObjects = {}
-
-local function CreateESP(player)
-    if ESPObjects[player] then return end
-    
-    local esp = {
-        Box = Drawing.new("Square"),
-        Name = Drawing.new("Text"),
-        Distance = Drawing.new("Text"),
-        HealthBar = Drawing.new("Line"),
-        HealthBarBG = Drawing.new("Line")
-    }
-    
-    esp.Box.Thickness = 2
-    esp.Box.Filled = false
-    esp.Box.Color = Settings.ESP.BoxColor
-    esp.Box.Visible = false
-    esp.Box.ZIndex = 2
-    
-    esp.Name.Size = 14
-    esp.Name.Center = true
-    esp.Name.Outline = true
-    esp.Name.Color = Settings.ESP.NameColor
-    esp.Name.Visible = false
-    esp.Name.ZIndex = 2
-    
-    esp.Distance.Size = 12
-    esp.Distance.Center = true
-    esp.Distance.Outline = true
-    esp.Distance.Color = Settings.ESP.DistanceColor
-    esp.Distance.Visible = false
-    esp.Distance.ZIndex = 2
-    
-    esp.HealthBarBG.Thickness = 3
-    esp.HealthBarBG.Color = Color3.fromRGB(0, 0, 0)
-    esp.HealthBarBG.Visible = false
-    esp.HealthBarBG.ZIndex = 1
-    
-    esp.HealthBar.Thickness = 3
-    esp.HealthBar.Color = Color3.fromRGB(0, 255, 0)
-    esp.HealthBar.Visible = false
-    esp.HealthBar.ZIndex = 2
-    
-    ESPObjects[player] = esp
-end
-
-local function UpdateESP()
-    for player, esp in pairs(ESPObjects) do
-        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character:FindFirstChild("Humanoid") then
-            local char = player.Character
-            local hrp = char.HumanoidRootPart
-            local humanoid = char.Humanoid
-            
-            local screenPos, onScreen = Camera:WorldToViewportPoint(hrp.Position)
-            
-            if onScreen and Settings.ESP.Enabled then
-                local headPos = Camera:WorldToViewportPoint(char.Head.Position + Vector3.new(0, 0.5, 0))
-                local legPos = Camera:WorldToViewportPoint(hrp.Position - Vector3.new(0, 3, 0))
+    local function UpdateESP()
+        for player, esp in pairs(ESPObjects) do
+            if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character:FindFirstChild("Humanoid") then
+                local char = player.Character
+                local hrp = char.HumanoidRootPart
+                local humanoid = char.Humanoid
                 
-                local height = math.abs(headPos.Y - legPos.Y)
-                local width = height / 2
+                local screenPos, onScreen = Camera:WorldToViewportPoint(hrp.Position)
                 
-                -- Muda cor da box baseado no time
-                local boxColor = Settings.ESP.BoxColor
-                if HasMultipleTeams() and player.Team then
-                    if player.Team == LocalPlayer.Team then
-                        boxColor = Color3.fromRGB(0, 255, 0) -- Verde para aliados
-                    else
-                        boxColor = Color3.fromRGB(255, 0, 0) -- Vermelho para inimigos
+                if onScreen and Settings.ESP.Enabled then
+                    local headPos = Camera:WorldToViewportPoint(char.Head.Position + Vector3.new(0, 0.5, 0))
+                    local legPos = Camera:WorldToViewportPoint(hrp.Position - Vector3.new(0, 3, 0))
+                    
+                    local height = math.abs(headPos.Y - legPos.Y)
+                    local width = height / 2
+                    
+                    local boxColor = Settings.ESP.BoxColor
+                    if HasMultipleTeams() and player.Team then
+                        if player.Team == LocalPlayer.Team then
+                            boxColor = Color3.fromRGB(0, 255, 0)
+                        else
+                            boxColor = Color3.fromRGB(255, 0, 0)
+                        end
                     end
-                end
-                
-                esp.Box.Size = Vector2.new(width, height)
-                esp.Box.Position = Vector2.new(screenPos.X - width / 2, screenPos.Y - height / 2)
-                esp.Box.Color = boxColor
-                esp.Box.Visible = true
-                
-                esp.Name.Text = player.Name
-                esp.Name.Position = Vector2.new(screenPos.X, headPos.Y - 20)
-                esp.Name.Visible = true
-                
-                local distance = math.floor((hrp.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude)
-                esp.Distance.Text = tostring(distance) .. "m"
-                esp.Distance.Position = Vector2.new(screenPos.X, legPos.Y + 5)
-                esp.Distance.Visible = true
-                
-                if Settings.ESP.HealthBarEnabled then
-                    local healthPercent = humanoid.Health / humanoid.MaxHealth
                     
-                    esp.HealthBarBG.From = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y - height / 2)
-                    esp.HealthBarBG.To = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y + height / 2)
-                    esp.HealthBarBG.Visible = true
+                    esp.Box.Size = Vector2.new(width, height)
+                    esp.Box.Position = Vector2.new(screenPos.X - width / 2, screenPos.Y - height / 2)
+                    esp.Box.Color = boxColor
+                    esp.Box.Visible = true
                     
-                    esp.HealthBar.From = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y - height / 2)
-                    esp.HealthBar.To = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y - height / 2 + height * healthPercent)
-                    esp.HealthBar.Color = Color3.fromRGB(255 * (1 - healthPercent), 255 * healthPercent, 0)
-                    esp.HealthBar.Visible = true
+                    esp.Name.Text = player.Name
+                    esp.Name.Position = Vector2.new(screenPos.X, headPos.Y - 20)
+                    esp.Name.Visible = true
+                    
+                    local distance = math.floor((hrp.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude)
+                    esp.Distance.Text = tostring(distance) .. "m"
+                    esp.Distance.Position = Vector2.new(screenPos.X, legPos.Y + 5)
+                    esp.Distance.Visible = true
+                    
+                    if Settings.ESP.HealthBarEnabled then
+                        local healthPercent = humanoid.Health / humanoid.MaxHealth
+                        
+                        esp.HealthBarBG.From = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y - height / 2)
+                        esp.HealthBarBG.To = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y + height / 2)
+                        esp.HealthBarBG.Visible = true
+                        
+                        esp.HealthBar.From = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y - height / 2)
+                        esp.HealthBar.To = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y - height / 2 + height * healthPercent)
+                        esp.HealthBar.Color = Color3.fromRGB(255 * (1 - healthPercent), 255 * healthPercent, 0)
+                        esp.HealthBar.Visible = true
+                    end
+                else
+                    esp.Box.Visible = false
+                    esp.Name.Visible = false
+                    esp.Distance.Visible = false
+                    esp.HealthBar.Visible = false
+                    esp.HealthBarBG.Visible = false
                 end
             else
                 esp.Box.Visible = false
@@ -769,462 +753,455 @@ local function UpdateESP()
                 esp.HealthBar.Visible = false
                 esp.HealthBarBG.Visible = false
             end
-        else
-            esp.Box.Visible = false
-            esp.Name.Visible = false
-            esp.Distance.Visible = false
-            esp.HealthBar.Visible = false
-            esp.HealthBarBG.Visible = false
         end
     end
-end
 
-for _, player in pairs(Players:GetPlayers()) do
-    if player ~= LocalPlayer then
-        CreateESP(player)
-    end
-end
-
-Players.PlayerAdded:Connect(function(player)
-    CreateESP(player)
-end)
-
-Players.PlayerRemoving:Connect(function(player)
-    if ESPObjects[player] then
-        for _, drawing in pairs(ESPObjects[player]) do
-            drawing:Remove()
-        end
-        ESPObjects[player] = nil
-    end
-end)
-
-RunService.RenderStepped:Connect(UpdateESP)
-
--- ═══════════════════════════════════════════════════
---                  FOV CIRCLE
--- ═══════════════════════════════════════════════════
-
-local FOVCircle = Drawing.new("Circle")
-FOVCircle.Thickness = 3
-FOVCircle.NumSides = 64
-FOVCircle.Radius = Settings.Aimbot.FOV
-FOVCircle.Filled = false
-FOVCircle.Visible = true
-FOVCircle.ZIndex = 999
-FOVCircle.Transparency = 1
-FOVCircle.Color = Color3.fromRGB(255, 0, 255)
-
-local hue = 0
-RunService.RenderStepped:Connect(function()
-    local mousePos = UserInputService:GetMouseLocation()
-    FOVCircle.Position = mousePos
-    FOVCircle.Radius = Settings.Aimbot.FOV
-    
-    hue = (hue + 1) % 360
-    local r = math.floor(math.sin(math.rad(hue)) * 127 + 128)
-    local g = math.floor(math.sin(math.rad(hue + 120)) * 127 + 128)
-    local b = math.floor(math.sin(math.rad(hue + 240)) * 127 + 128)
-    
-    FOVCircle.Color = Color3.fromRGB(r, g, b)
-end)
-
--- ═══════════════════════════════════════════════════
---                      GUI
--- ═══════════════════════════════════════════════════
-
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "KakaHubV4"
-ScreenGui.ResetOnSpawn = false
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.Parent = LocalPlayer.PlayerGui
-
-local MainFrame = Instance.new("Frame")
-MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 450, 0, 580)
-MainFrame.Position = UDim2.new(0.5, -225, 0.5, -290)
-MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-MainFrame.BorderSizePixel = 0
-MainFrame.Active = true
-MainFrame.Draggable = true
-MainFrame.Parent = ScreenGui
-
-local MainCorner = Instance.new("UICorner")
-MainCorner.CornerRadius = UDim.new(0, 15)
-MainCorner.Parent = MainFrame
-
-local Header = Instance.new("Frame")
-Header.Size = UDim2.new(1, 0, 0, 60)
-Header.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
-Header.BorderSizePixel = 0
-Header.Parent = MainFrame
-
-local HeaderCorner = Instance.new("UICorner")
-HeaderCorner.CornerRadius = UDim.new(0, 15)
-HeaderCorner.Parent = Header
-
-local HeaderFix = Instance.new("Frame")
-HeaderFix.Size = UDim2.new(1, 0, 0, 15)
-HeaderFix.Position = UDim2.new(0, 0, 1, -15)
-HeaderFix.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
-HeaderFix.BorderSizePixel = 0
-HeaderFix.Parent = Header
-
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, -20, 1, 0)
-Title.Position = UDim2.new(0, 10, 0, 0)
-Title.BackgroundTransparency = 1
-Title.Text = "🔥 KAKA HUB V4"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 28
-Title.Font = Enum.Font.GothamBold
-Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.Parent = Header
-
-local CloseButton = Instance.new("TextButton")
-CloseButton.Size = UDim2.new(0, 40, 0, 40)
-CloseButton.Position = UDim2.new(1, -50, 0, 10)
-CloseButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
-CloseButton.Text = "X"
-CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseButton.TextSize = 20
-CloseButton.Font = Enum.Font.GothamBold
-CloseButton.Parent = Header
-
-Instance.new("UICorner", CloseButton).CornerRadius = UDim.new(0, 10)
-
-local ContentFrame = Instance.new("ScrollingFrame")
-ContentFrame.Size = UDim2.new(1, -20, 1, -80)
-ContentFrame.Position = UDim2.new(0, 10, 0, 70)
-ContentFrame.BackgroundTransparency = 1
-ContentFrame.BorderSizePixel = 0
-ContentFrame.ScrollBarThickness = 6
-ContentFrame.Parent = MainFrame
-
-local UIListLayout = Instance.new("UIListLayout")
-UIListLayout.Padding = UDim.new(0, 10)
-UIListLayout.Parent = ContentFrame
-
-local function CreateSection(title)
-    local section = Instance.new("Frame")
-    section.Size = UDim2.new(1, -10, 0, 40)
-    section.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
-    section.BorderSizePixel = 0
-    section.Parent = ContentFrame
-    
-    Instance.new("UICorner", section).CornerRadius = UDim.new(0, 8)
-    
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -10, 1, 0)
-    label.Position = UDim2.new(0, 10, 0, 0)
-    label.BackgroundTransparency = 1
-    label.Text = title
-    label.TextColor3 = Color3.fromRGB(255, 200, 0)
-    label.TextSize = 16
-    label.Font = Enum.Font.GothamBold
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = section
-    
-    return section
-end
-
-local function CreateToggle(name, default, callback)
-    local toggle = Instance.new("Frame")
-    toggle.Size = UDim2.new(1, -10, 0, 40)
-    toggle.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
-    toggle.BorderSizePixel = 0
-    toggle.Parent = ContentFrame
-    
-    Instance.new("UICorner", toggle).CornerRadius = UDim.new(0, 8)
-    
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(0.7, 0, 1, 0)
-    label.Position = UDim2.new(0, 10, 0, 0)
-    label.BackgroundTransparency = 1
-    label.Text = name
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.TextSize = 14
-    label.Font = Enum.Font.Gotham
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = toggle
-    
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0, 60, 0, 30)
-    button.Position = UDim2.new(1, -70, 0.5, -15)
-    button.BackgroundColor3 = default and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
-    button.Text = default and "ON" or "OFF"
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.TextSize = 14
-    button.Font = Enum.Font.GothamBold
-    button.Parent = toggle
-    
-    Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
-    
-    local enabled = default
-    
-    button.MouseButton1Click:Connect(function()
-        enabled = not enabled
-        button.BackgroundColor3 = enabled and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
-        button.Text = enabled and "ON" or "OFF"
-        callback(enabled)
-    end)
-    
-    return toggle
-end
-
-local function CreateSlider(name, min, max, default, callback)
-    local slider = Instance.new("Frame")
-    slider.Size = UDim2.new(1, -10, 0, 60)
-    slider.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
-    slider.BorderSizePixel = 0
-    slider.Parent = ContentFrame
-    
-    Instance.new("UICorner", slider).CornerRadius = UDim.new(0, 8)
-    
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -20, 0, 20)
-    label.Position = UDim2.new(0, 10, 0, 5)
-    label.BackgroundTransparency = 1
-    label.Text = name .. ": " .. default
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.TextSize = 14
-    label.Font = Enum.Font.Gotham
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = slider
-    
-    local sliderBar = Instance.new("Frame")
-    sliderBar.Size = UDim2.new(0.9, 0, 0, 8)
-    sliderBar.Position = UDim2.new(0.05, 0, 0, 35)
-    sliderBar.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
-    sliderBar.BorderSizePixel = 0
-    sliderBar.Parent = slider
-    
-    Instance.new("UICorner", sliderBar).CornerRadius = UDim.new(1, 0)
-    
-    local sliderFill = Instance.new("Frame")
-    sliderFill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
-    sliderFill.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
-    sliderFill.BorderSizePixel = 0
-    sliderFill.Parent = sliderBar
-    
-    Instance.new("UICorner", sliderFill).CornerRadius = UDim.new(1, 0)
-    
-    local sliderButton = Instance.new("TextButton")
-    sliderButton.Size = UDim2.new(1, 0, 1, 0)
-    sliderButton.BackgroundTransparency = 1
-    sliderButton.Text = ""
-    sliderButton.Parent = sliderBar
-    
-    local dragging = false
-    
-    sliderButton.MouseButton1Down:Connect(function()
-        dragging = true
-    end)
-    
-    UserInputService.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
-        end
-    end)
-    
-    sliderButton.MouseMoved:Connect(function(x, y)
-        if dragging then
-            local mousePos = UserInputService:GetMouseLocation().X
-            local sliderPos = sliderBar.AbsolutePosition.X
-            local sliderSize = sliderBar.AbsoluteSize.X
-            
-            local value = math.clamp((mousePos - sliderPos) / sliderSize, 0, 1)
-            local actualValue = math.floor(min + (max - min) * value)
-            
-            sliderFill.Size = UDim2.new(value, 0, 1, 0)
-            label.Text = name .. ": " .. actualValue
-            
-            callback(actualValue)
-        end
-    end)
-    
-    return slider
-end
-
-local function CreateDropdown(name, options, callback)
-    local dropdown = Instance.new("Frame")
-    dropdown.Size = UDim2.new(1, -10, 0, 40)
-    dropdown.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
-    dropdown.BorderSizePixel = 0
-    dropdown.Parent = ContentFrame
-    
-    Instance.new("UICorner", dropdown).CornerRadius = UDim.new(0, 8)
-    
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(0.4, 0, 1, 0)
-    label.Position = UDim2.new(0, 10, 0, 0)
-    label.BackgroundTransparency = 1
-    label.Text = name
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.TextSize = 14
-    label.Font = Enum.Font.Gotham
-    label.TextXAlignment = Enum.TextXAlignment.Left
-    label.Parent = dropdown
-    
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0.5, -20, 0, 30)
-    button.Position = UDim2.new(0.5, 10, 0.5, -15)
-    button.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
-    button.Text = "Selecionar"
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.TextSize = 13
-    button.Font = Enum.Font.Gotham
-    button.Parent = dropdown
-    
-    Instance.new("UICorner", button).CornerRadius = UDim.new(0, 6)
-    
-    local dropdownList = Instance.new("Frame")
-    dropdownList.Size = UDim2.new(1, 0, 0, #options * 35)
-    dropdownList.Position = UDim2.new(0, 0, 1, 5)
-    dropdownList.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
-    dropdownList.BorderSizePixel = 0
-    dropdownList.Visible = false
-    dropdownList.ZIndex = 10
-    dropdownList.Parent = dropdown
-    
-    Instance.new("UICorner", dropdownList).CornerRadius = UDim.new(0, 8)
-    
-    local listLayout = Instance.new("UIListLayout")
-    listLayout.Padding = UDim.new(0, 5)
-    listLayout.Parent = dropdownList
-    
-    button.MouseButton1Click:Connect(function()
-        dropdownList.Visible = not dropdownList.Visible
-    end)
-    
-    for _, option in pairs(options) do
-        local optionButton = Instance.new("TextButton")
-        optionButton.Size = UDim2.new(1, -10, 0, 30)
-        optionButton.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
-        optionButton.Text = option
-        optionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        optionButton.TextSize = 13
-        optionButton.Font = Enum.Font.Gotham
-        optionButton.Parent = dropdownList
-        
-        Instance.new("UICorner", optionButton).CornerRadius = UDim.new(0, 6)
-        
-        optionButton.MouseButton1Click:Connect(function()
-            button.Text = option
-            dropdownList.Visible = false
-            callback(option)
-        end)
-    end
-    
-    return dropdown
-end
-
--- Criar GUI
-CreateSection("🎯 AIMBOT")
-
-CreateToggle("Aimbot", false, function(enabled)
-    Settings.Aimbot.Enabled = enabled
-end)
-
-CreateToggle("Team Check (Anti-Aliado)", true, function(enabled)
-    Settings.Aimbot.TeamCheck = enabled
-end)
-
-CreateSlider("FOV Circle", 50, 500, 150, function(value)
-    Settings.Aimbot.FOV = value
-end)
-
-CreateSection("👁️ ESP")
-
-CreateToggle("ESP (Já Ativo)", true, function(enabled)
-    Settings.ESP.Enabled = enabled
-end)
-
-CreateSection("🚀 TELEPORT")
-
-local playerNames = {}
-for _, player in pairs(Players:GetPlayers()) do
-    if player ~= LocalPlayer then
-        table.insert(playerNames, player.Name)
-    end
-end
-
-CreateDropdown("Teleportar para", playerNames, function(selectedName)
     for _, player in pairs(Players:GetPlayers()) do
-        if player.Name == selectedName then
-            Settings.Teleport.SelectedPlayer = player
-            
-            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                    LocalPlayer.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame
-                end
-            end
-            break
+        if player ~= LocalPlayer then
+            CreateESP(player)
         end
     end
+
+    Players.PlayerAdded:Connect(function(player)
+        CreateESP(player)
+    end)
+
+    Players.PlayerRemoving:Connect(function(player)
+        if ESPObjects[player] then
+            for _, drawing in pairs(ESPObjects[player]) do
+                drawing:Remove()
+            end
+            ESPObjects[player] = nil
+        end
+    end)
+
+    RunService.RenderStepped:Connect(UpdateESP)
+
+    -- ═══════════════════════════════════════════════════
+    --                  FOV CIRCLE
+    -- ═══════════════════════════════════════════════════
+
+    local FOVCircle = Drawing.new("Circle")
+    FOVCircle.Thickness = 3
+    FOVCircle.NumSides = 64
+    FOVCircle.Radius = Settings.Aimbot.FOV
+    FOVCircle.Filled = false
+    FOVCircle.Visible = true
+    FOVCircle.ZIndex = 999
+    FOVCircle.Transparency = 1
+    FOVCircle.Color = Color3.fromRGB(255, 0, 255)
+
+    local hue = 0
+    RunService.RenderStepped:Connect(function()
+        local mousePos = UserInputService:GetMouseLocation()
+        FOVCircle.Position = mousePos
+        FOVCircle.Radius = Settings.Aimbot.FOV
+        
+        hue = (hue + 1) % 360
+        local r = math.floor(math.sin(math.rad(hue)) * 127 + 128)
+        local g = math.floor(math.sin(math.rad(hue + 120)) * 127 + 128)
+        local b = math.floor(math.sin(math.rad(hue + 240)) * 127 + 128)
+        
+        FOVCircle.Color = Color3.fromRGB(r, g, b)
+    end)
+
+    -- ═══════════════════════════════════════════════════
+    --                      GUI DO HUB
+    -- ═══════════════════════════════════════════════════
+
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "KakaHubV4"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.Parent = LocalPlayer.PlayerGui
+
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Name = "MainFrame"
+    MainFrame.Size = UDim2.new(0, 450, 0, 580)
+    MainFrame.Position = UDim2.new(0.5, -225, 0.5, -290)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Active = true
+    MainFrame.Draggable = true
+    MainFrame.Parent = ScreenGui
+
+    local MainCorner = Instance.new("UICorner")
+    MainCorner.CornerRadius = UDim.new(0, 15)
+    MainCorner.Parent = MainFrame
+
+    local Header = Instance.new("Frame")
+    Header.Size = UDim2.new(1, 0, 0, 60)
+    Header.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+    Header.BorderSizePixel = 0
+    Header.Parent = MainFrame
+
+    local HeaderCorner = Instance.new("UICorner")
+    HeaderCorner.CornerRadius = UDim.new(0, 15)
+    HeaderCorner.Parent = Header
+
+    local HeaderFix = Instance.new("Frame")
+    HeaderFix.Size = UDim2.new(1, 0, 0, 15)
+    HeaderFix.Position = UDim2.new(0, 0, 1, -15)
+    HeaderFix.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+    HeaderFix.BorderSizePixel = 0
+    HeaderFix.Parent = Header
+
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, -20, 1, 0)
+    Title.Position = UDim2.new(0, 10, 0, 0)
+    Title.BackgroundTransparency = 1
+    Title.Text = "🔥 KAKA HUB V4"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 28
+    Title.Font = Enum.Font.GothamBold
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    Title.Parent = Header
+
+    local CloseButton = Instance.new("TextButton")
+    CloseButton.Size = UDim2.new(0, 40, 0, 40)
+    CloseButton.Position = UDim2.new(1, -50, 0, 10)
+    CloseButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    CloseButton.Text = "X"
+    CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseButton.TextSize = 20
+    CloseButton.Font = Enum.Font.GothamBold
+    CloseButton.Parent = Header
+
+    Instance.new("UICorner", CloseButton).CornerRadius = UDim.new(0, 10)
+
+    local ContentFrame = Instance.new("ScrollingFrame")
+    ContentFrame.Size = UDim2.new(1, -20, 1, -80)
+    ContentFrame.Position = UDim2.new(0, 10, 0, 70)
+    ContentFrame.BackgroundTransparency = 1
+    ContentFrame.BorderSizePixel = 0
+    ContentFrame.ScrollBarThickness = 6
+    ContentFrame.Parent = MainFrame
+
+    local UIListLayout = Instance.new("UIListLayout")
+    UIListLayout.Padding = UDim.new(0, 10)
+    UIListLayout.Parent = ContentFrame
+
+    local function CreateSection(title)
+        local section = Instance.new("Frame")
+        section.Size = UDim2.new(1, -10, 0, 40)
+        section.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+        section.BorderSizePixel = 0
+        section.Parent = ContentFrame
+        
+        Instance.new("UICorner", section).CornerRadius = UDim.new(0, 8)
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, -10, 1, 0)
+        label.Position = UDim2.new(0, 10, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = title
+        label.TextColor3 = Color3.fromRGB(255, 200, 0)
+        label.TextSize = 16
+        label.Font = Enum.Font.GothamBold
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = section
+        
+        return section
+    end
+
+    local function CreateToggle(name, default, callback)
+        local toggle = Instance.new("Frame")
+        toggle.Size = UDim2.new(1, -10, 0, 40)
+        toggle.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+        toggle.BorderSizePixel = 0
+        toggle.Parent = ContentFrame
+        
+        Instance.new("UICorner", toggle).CornerRadius = UDim.new(0, 8)
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(0.7, 0, 1, 0)
+        label.Position = UDim2.new(0, 10, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = name
+        label.TextColor3 = Color3.fromRGB(255, 255, 255)
+        label.TextSize = 14
+        label.Font = Enum.Font.Gotham
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = toggle
+        
+        local button = Instance.new("TextButton")
+        button.Size = UDim2.new(0, 60, 0, 30)
+        button.Position = UDim2.new(1, -70, 0.5, -15)
+        button.BackgroundColor3 = default and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
+        button.Text = default and "ON" or "OFF"
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.TextSize = 14
+        button.Font = Enum.Font.GothamBold
+        button.Parent = toggle
+        
+        Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
+        
+        local enabled = default
+        
+        button.MouseButton1Click:Connect(function()
+            enabled = not enabled
+            button.BackgroundColor3 = enabled and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
+            button.Text = enabled and "ON" or "OFF"
+            callback(enabled)
+        end)
+        
+        return toggle
+    end
+
+    local function CreateSlider(name, min, max, default, callback)
+        local slider = Instance.new("Frame")
+        slider.Size = UDim2.new(1, -10, 0, 60)
+        slider.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+        slider.BorderSizePixel = 0
+        slider.Parent = ContentFrame
+        
+        Instance.new("UICorner", slider).CornerRadius = UDim.new(0, 8)
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(1, -20, 0, 20)
+        label.Position = UDim2.new(0, 10, 0, 5)
+        label.BackgroundTransparency = 1
+        label.Text = name .. ": " .. default
+        label.TextColor3 = Color3.fromRGB(255, 255, 255)
+        label.TextSize = 14
+        label.Font = Enum.Font.Gotham
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = slider
+        
+        local sliderBar = Instance.new("Frame")
+        sliderBar.Size = UDim2.new(0.9, 0, 0, 8)
+        sliderBar.Position = UDim2.new(0.05, 0, 0, 35)
+        sliderBar.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+        sliderBar.BorderSizePixel = 0
+        sliderBar.Parent = slider
+        
+        Instance.new("UICorner", sliderBar).CornerRadius = UDim.new(1, 0)
+        
+        local sliderFill = Instance.new("Frame")
+        sliderFill.Size = UDim2.new((default - min) / (max - min), 0, 1, 0)
+        sliderFill.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+        sliderFill.BorderSizePixel = 0
+        sliderFill.Parent = sliderBar
+        
+        Instance.new("UICorner", sliderFill).CornerRadius = UDim.new(1, 0)
+        
+        local sliderButton = Instance.new("TextButton")
+        sliderButton.Size = UDim2.new(1, 0, 1, 0)
+        sliderButton.BackgroundTransparency = 1
+        sliderButton.Text = ""
+        sliderButton.Parent = sliderBar
+        
+        local dragging = false
+        
+        sliderButton.MouseButton1Down:Connect(function()
+            dragging = true
+        end)
+        
+        UserInputService.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = false
+            end
+        end)
+        
+        sliderButton.MouseMoved:Connect(function(x, y)
+            if dragging then
+                local mousePos = UserInputService:GetMouseLocation().X
+                local sliderPos = sliderBar.AbsolutePosition.X
+                local sliderSize = sliderBar.AbsoluteSize.X
+                
+                local value = math.clamp((mousePos - sliderPos) / sliderSize, 0, 1)
+                local actualValue = math.floor(min + (max - min) * value)
+                
+                sliderFill.Size = UDim2.new(value, 0, 1, 0)
+                label.Text = name .. ": " .. actualValue
+                
+                callback(actualValue)
+            end
+        end)
+        
+        return slider
+    end
+
+    local function CreateDropdown(name, options, callback)
+        local dropdown = Instance.new("Frame")
+        dropdown.Size = UDim2.new(1, -10, 0, 40)
+        dropdown.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+        dropdown.BorderSizePixel = 0
+        dropdown.Parent = ContentFrame
+        
+        Instance.new("UICorner", dropdown).CornerRadius = UDim.new(0, 8)
+        
+        local label = Instance.new("TextLabel")
+        label.Size = UDim2.new(0.4, 0, 1, 0)
+        label.Position = UDim2.new(0, 10, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = name
+        label.TextColor3 = Color3.fromRGB(255, 255, 255)
+        label.TextSize = 14
+        label.Font = Enum.Font.Gotham
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.Parent = dropdown
+        
+        local button = Instance.new("TextButton")
+        button.Size = UDim2.new(0.5, -20, 0, 30)
+        button.Position = UDim2.new(0.5, 10, 0.5, -15)
+        button.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+        button.Text = "Selecionar"
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.TextSize = 13
+        button.Font = Enum.Font.Gotham
+        button.Parent = dropdown
+        
+        Instance.new("UICorner", button).CornerRadius = UDim.new(0, 6)
+        
+        local dropdownList = Instance.new("Frame")
+        dropdownList.Size = UDim2.new(1, 0, 0, #options * 35)
+        dropdownList.Position = UDim2.new(0, 0, 1, 5)
+        dropdownList.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+        dropdownList.BorderSizePixel = 0
+        dropdownList.Visible = false
+        dropdownList.ZIndex = 10
+        dropdownList.Parent = dropdown
+        
+        Instance.new("UICorner", dropdownList).CornerRadius = UDim.new(0, 8)
+        
+        local listLayout = Instance.new("UIListLayout")
+        listLayout.Padding = UDim.new(0, 5)
+        listLayout.Parent = dropdownList
+        
+        button.MouseButton1Click:Connect(function()
+            dropdownList.Visible = not dropdownList.Visible
+        end)
+        
+        for _, option in pairs(options) do
+            local optionButton = Instance.new("TextButton")
+            optionButton.Size = UDim2.new(1, -10, 0, 30)
+            optionButton.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
+            optionButton.Text = option
+            optionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            optionButton.TextSize = 13
+            optionButton.Font = Enum.Font.Gotham
+            optionButton.Parent = dropdownList
+            
+            Instance.new("UICorner", optionButton).CornerRadius = UDim.new(0, 6)
+            
+            optionButton.MouseButton1Click:Connect(function()
+                button.Text = option
+                dropdownList.Visible = false
+                callback(option)
+            end)
+        end
+        
+        return dropdown
+    end
+
+    -- Criar GUI do Hub
+    CreateSection("🎯 AIMBOT")
+
+    CreateToggle("Aimbot", false, function(enabled)
+        Settings.Aimbot.Enabled = enabled
+    end)
+
+    CreateToggle("Team Check (Anti-Aliado)", true, function(enabled)
+        Settings.Aimbot.TeamCheck = enabled
+    end)
+
+    CreateSlider("FOV Circle", 50, 500, 150, function(value)
+        Settings.Aimbot.FOV = value
+    end)
+
+    CreateSection("👁️ ESP")
+
+    CreateToggle("ESP (Já Ativo)", true, function(enabled)
+        Settings.ESP.Enabled = enabled
+    end)
+
+    CreateSection("🚀 TELEPORT")
+
+    local playerNames = {}
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            table.insert(playerNames, player.Name)
+        end
+    end
+
+    CreateDropdown("Teleportar para", playerNames, function(selectedName)
+        for _, player in pairs(Players:GetPlayers()) do
+            if player.Name == selectedName then
+                Settings.Teleport.SelectedPlayer = player
+                
+                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                        LocalPlayer.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame
+                    end
+                end
+                break
+            end
+        end
+    end)
+
+    CloseButton.MouseButton1Click:Connect(function()
+        MainFrame.Visible = false
+    end)
+
+    -- ═══════════════════════════════════════════════════
+    --              BOTÃO DE TOGGLE (K)
+    -- ═══════════════════════════════════════════════════
+
+    local ToggleButton = Instance.new("TextButton")
+    ToggleButton.Size = UDim2.new(0, 50, 0, 50)
+    ToggleButton.Position = UDim2.new(0, 10, 0.5, -25)
+    ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+    ToggleButton.Text = "K"
+    ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ToggleButton.TextSize = 28
+    ToggleButton.Font = Enum.Font.GothamBold
+    ToggleButton.Parent = ScreenGui
+
+    Instance.new("UICorner", ToggleButton).CornerRadius = UDim.new(1, 0)
+
+    ToggleButton.MouseButton1Click:Connect(function()
+        MainFrame.Visible = not MainFrame.Visible
+    end)
+
+    -- ═══════════════════════════════════════════════════
+    --                 NOTIFICAÇÃO FINAL
+    -- ═══════════════════════════════════════════════════
+
+    local function ShowNotification()
+        local notif = Instance.new("Frame")
+        notif.Size = UDim2.new(0, 380, 0, 120)
+        notif.Position = UDim2.new(0.5, -190, 0, -130)
+        notif.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+        notif.BorderSizePixel = 0
+        notif.Parent = ScreenGui
+        
+        Instance.new("UICorner", notif).CornerRadius = UDim.new(0, 15)
+        
+        local text = Instance.new("TextLabel")
+        text.Size = UDim2.new(1, -20, 1, -20)
+        text.Position = UDim2.new(0, 10, 0, 10)
+        text.BackgroundTransparency = 1
+        text.Text = "🔥 KAKA HUB V4 ATUALIZADO!\n\nCarregado com sucesso!\n✨ Aimbot com detecção de times!\n🎯 ESP ativo automaticamente!"
+        text.TextColor3 = Color3.fromRGB(255, 255, 255)
+        text.TextSize = 15
+        text.Font = Enum.Font.GothamBold
+        text.Parent = notif
+        
+        notif:TweenPosition(UDim2.new(0.5, -190, 0, 20), "Out", "Elastic", 0.8, true)
+        
+        task.wait(4)
+        
+        notif:TweenPosition(UDim2.new(0.5, -190, 0, -130), "In", "Back", 0.5, true)
+        task.wait(0.5)
+        notif:Destroy()
+    end
+
+    ShowNotification()
+
+    print("✅ KAKA HUB V4 carregado!")
+    print("🎯 Aimbot com detecção de times ativado!")
+    print("🔥 ESP ativo automaticamente!")
+    print("💡 Clique no 'K' para abrir/fechar!")
+    print("⚡ Team Check: " .. (HasMultipleTeams() and "Múltiplos times detectados!" or "Modo FFA detectado!"))
 end)
-
-CloseButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = false
-end)
-
--- ═══════════════════════════════════════════════════
---              BOTÃO DE TOGGLE (K)
--- ═══════════════════════════════════════════════════
-
-local ToggleButton = Instance.new("TextButton")
-ToggleButton.Size = UDim2.new(0, 50, 0, 50)
-ToggleButton.Position = UDim2.new(0, 10, 0.5, -25)
-ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
-ToggleButton.Text = "K"
-ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-ToggleButton.TextSize = 28
-ToggleButton.Font = Enum.Font.GothamBold
-ToggleButton.Parent = ScreenGui
-
-Instance.new("UICorner", ToggleButton).CornerRadius = UDim.new(1, 0)
-
-ToggleButton.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible
-end)
-
--- ═══════════════════════════════════════════════════
---                 NOTIFICAÇÃO INICIAL
--- ═══════════════════════════════════════════════════
-
-local function ShowNotification()
-    local notif = Instance.new("Frame")
-    notif.Size = UDim2.new(0, 380, 0, 120)
-    notif.Position = UDim2.new(0.5, -190, 0, -130)
-    notif.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
-    notif.BorderSizePixel = 0
-    notif.Parent = ScreenGui
-    
-    Instance.new("UICorner", notif).CornerRadius = UDim.new(0, 15)
-    
-    local text = Instance.new("TextLabel")
-    text.Size = UDim2.new(1, -20, 1, -20)
-    text.Position = UDim2.new(0, 10, 0, 10)
-    text.BackgroundTransparency = 1
-    text.Text = "🔥 KAKA HUB V4 ATUALIZADO!\n\nCarregado com sucesso!\n✨ Aimbot com detecção de times!\n🎯 ESP ativo automaticamente!"
-    text.TextColor3 = Color3.fromRGB(255, 255, 255)
-    text.TextSize = 15
-    text.Font = Enum.Font.GothamBold
-    text.Parent = notif
-    
-    -- Animação
-    notif:TweenPosition(UDim2.new(0.5, -190, 0, 20), "Out", "Elastic", 0.8, true)
-    
-    task.wait(4)
-    
-    notif:TweenPosition(UDim2.new(0.5, -190, 0, -130), "In", "Back", 0.5, true)
-    task.wait(0.5)
-    notif:Destroy()
-end
-
-ShowNotification()
-
-print("✅ KAKA HUB V4 carregado!")
-print("🎯 Aimbot com detecção de times ativado!")
-print("🔥 ESP ativo automaticamente!")
-print("💡 Clique no 'K' para abrir/fechar!")
-print("⚡ Team Check: " .. (HasMultipleTeams() and "Múltiplos times detectados!" or "Modo FFA detectado!"))
