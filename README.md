@@ -343,25 +343,57 @@ local function ShowStatus(label, message, isSuccess)
 end
 
 -- ═══════════════════════════════════════════════════════════
---  🎮 SISTEMA DE AUTENTICAÇÃO
+--  🎮 SISTEMA DE AUTENTICAÇÃO COM 3 DEDOS
 -- ═══════════════════════════════════════════════════════════
 
 local function StartKeySystem(onSuccess)
     local gui, elements = CreateKeySystem()
     gui.Parent = CoreGui
     
-    elements.MainContainer.Size = UDim2.new(0, 0, 0, 0)
-    elements.MainContainer.Position = UDim2.new(0.5, 0, 0.5, 0)
+    -- Iniciar invisível
+    gui.Enabled = false
     
-    Tween(
-        elements.MainContainer,
-        {
-            Size = UDim2.new(0, 500, 0, 350),
-            Position = UDim2.new(0.5, -250, 0.5, -175)
-        },
-        0.5,
-        Enum.EasingStyle.Back
-    )
+    -- Sistema de 3 dedos para abrir a tela de Key
+    local activeTouches = {}
+    local keySystemOpen = false
+    
+    local function countTouches()
+        local count = 0
+        for _, active in pairs(activeTouches) do
+            if active then count = count + 1 end
+        end
+        return count
+    end
+    
+    UserInputService.TouchStarted:Connect(function(touch, gameProcessed)
+        if keySystemOpen then return end
+        
+        activeTouches[touch] = true
+        
+        if countTouches() >= 3 then
+            keySystemOpen = true
+            gui.Enabled = true
+            
+            elements.MainContainer.Size = UDim2.new(0, 0, 0, 0)
+            elements.MainContainer.Position = UDim2.new(0.5, 0, 0.5, 0)
+            
+            Tween(
+                elements.MainContainer,
+                {
+                    Size = UDim2.new(0, 500, 0, 350),
+                    Position = UDim2.new(0.5, -250, 0.5, -175)
+                },
+                0.5,
+                Enum.EasingStyle.Back
+            )
+            
+            print("🔑 Sistema de Keys aberto com 3 dedos!")
+        end
+    end)
+    
+    UserInputService.TouchEnded:Connect(function(touch, gameProcessed)
+        activeTouches[touch] = false
+    end)
     
     elements.VerifyButton.MouseEnter:Connect(function()
         Tween(elements.VerifyButton, {BackgroundColor3 = COLORS.Accent}, 0.2)
