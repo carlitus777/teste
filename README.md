@@ -1201,39 +1201,8 @@ StartKeySystem(function()
     end)
 
     -- ═══════════════════════════════════════════════════
-    --                 NOTIFICAÇÃO FINAL
+    --                 MENSAGENS NO CONSOLE
     -- ═══════════════════════════════════════════════════
-
-    local function ShowNotification()
-        local notif = Instance.new("Frame")
-        notif.Size = UDim2.new(0, 380, 0, 140)
-        notif.Position = UDim2.new(0.5, -190, 0, -150)
-        notif.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
-        notif.BorderSizePixel = 0
-        notif.Parent = ScreenGui
-        
-        Instance.new("UICorner", notif).CornerRadius = UDim.new(0, 15)
-        
-        local text = Instance.new("TextLabel")
-        text.Size = UDim2.new(1, -20, 1, -20)
-        text.Position = UDim2.new(0, 10, 0, 10)
-        text.BackgroundTransparency = 1
-        text.Text = "🔥 KAKA HUB V4 ATUALIZADO!\n\nCarregado com sucesso!\n✨ Aimbot com detecção de times!\n🎯 ESP ativo automaticamente!\n🖐️ Use 3 dedos simultâneos para abrir!"
-        text.TextColor3 = Color3.fromRGB(255, 255, 255)
-        text.TextSize = 14
-        text.Font = Enum.Font.GothamBold
-        text.Parent = notif
-        
-        notif:TweenPosition(UDim2.new(0.5, -190, 0, 20), "Out", "Elastic", 0.8, true)
-        
-        task.wait(5)
-        
-        notif:TweenPosition(UDim2.new(0.5, -190, 0, -150), "In", "Back", 0.5, true)
-        task.wait(0.5)
-        notif:Destroy()
-    end
-
-    ShowNotification()
 
     print("✅ KAKA HUB V4 carregado!")
     print("🎯 Aimbot com detecção de times ativado!")
