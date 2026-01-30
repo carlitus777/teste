@@ -23,6 +23,7 @@ local KEY_CONFIG = {
     },
     
     DiscordLink = "https://discord.gg/u5VcCE7s2a",
+    KeyLink = "https://4br.me/r8uk0gW",
     HubName = "KAKA HUB V4",
     NotificationTime = 3,
 }
@@ -99,8 +100,8 @@ local function CreateKeySystem()
     
     local MainContainer = Instance.new("Frame")
     MainContainer.Name = "MainContainer"
-    MainContainer.Size = UDim2.new(0, 500, 0, 350)
-    MainContainer.Position = UDim2.new(0.5, -250, 0.5, -175)
+    MainContainer.Size = UDim2.new(0, 500, 0, 400)
+    MainContainer.Position = UDim2.new(0.5, -250, 0.5, -200)
     MainContainer.BackgroundColor3 = COLORS.Background
     MainContainer.BorderSizePixel = 0
     MainContainer.ClipsDescendants = true
@@ -205,7 +206,7 @@ local function CreateKeySystem()
     local Description = Instance.new("TextLabel")
     Description.Size = UDim2.new(1, 0, 0, 70)
     Description.BackgroundTransparency = 1
-    Description.Text = "🔐 Digite sua chave de acesso para usar o hub\n\nSe voce nao possui uma chave, clique no botao abaixo"
+    Description.Text = "🔐 Digite sua chave de acesso para usar o hub\n\nSe voce nao possui uma chave, pegue nos botoes abaixo"
     Description.TextColor3 = COLORS.TextDim
     Description.Font = Enum.Font.Gotham
     Description.TextSize = 14
@@ -272,12 +273,30 @@ local function CreateKeySystem()
     VerifyGradient.Rotation = 90
     VerifyGradient.Parent = VerifyButton
     
+    -- BOTÃO PEGAR KEY (NOVO)
+    local GetKeyButton = Instance.new("TextButton")
+    GetKeyButton.Name = "GetKeyButton"
+    GetKeyButton.Size = UDim2.new(1, 0, 0, 45)
+    GetKeyButton.Position = UDim2.new(0, 0, 0, 205)
+    GetKeyButton.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+    GetKeyButton.Text = "🔑 PEGAR KEY AQUI"
+    GetKeyButton.TextColor3 = COLORS.Text
+    GetKeyButton.Font = Enum.Font.GothamBold
+    GetKeyButton.TextSize = 14
+    GetKeyButton.AutoButtonColor = false
+    GetKeyButton.Parent = Content
+    
+    local GetKeyCorner = Instance.new("UICorner")
+    GetKeyCorner.CornerRadius = UDim.new(0, 10)
+    GetKeyCorner.Parent = GetKeyButton
+    
+    -- BOTÃO DISCORD CRIADOR (RENOMEADO)
     local DiscordButton = Instance.new("TextButton")
     DiscordButton.Name = "DiscordButton"
     DiscordButton.Size = UDim2.new(1, 0, 0, 45)
-    DiscordButton.Position = UDim2.new(0, 0, 0, 205)
+    DiscordButton.Position = UDim2.new(0, 0, 0, 260)
     DiscordButton.BackgroundColor3 = COLORS.Accent
-    DiscordButton.Text = "💬 OBTER KEY NO DISCORD"
+    DiscordButton.Text = "💬 DISCORD CRIADOR"
     DiscordButton.TextColor3 = COLORS.Text
     DiscordButton.Font = Enum.Font.GothamBold
     DiscordButton.TextSize = 14
@@ -305,6 +324,7 @@ local function CreateKeySystem()
         CloseButton = CloseButton,
         KeyInput = KeyInput,
         VerifyButton = VerifyButton,
+        GetKeyButton = GetKeyButton,
         DiscordButton = DiscordButton,
         StatusLabel = StatusLabel,
         InputFrame = InputFrame
@@ -380,8 +400,8 @@ local function StartKeySystem(onSuccess)
             Tween(
                 elements.MainContainer,
                 {
-                    Size = UDim2.new(0, 500, 0, 350),
-                    Position = UDim2.new(0.5, -250, 0.5, -175)
+                    Size = UDim2.new(0, 500, 0, 400),
+                    Position = UDim2.new(0.5, -250, 0.5, -200)
                 },
                 0.5,
                 Enum.EasingStyle.Back
@@ -402,6 +422,15 @@ local function StartKeySystem(onSuccess)
     
     elements.VerifyButton.MouseLeave:Connect(function()
         Tween(elements.VerifyButton, {BackgroundColor3 = COLORS.Primary}, 0.2)
+    end)
+    
+    -- Hover efeito botão Pegar Key
+    elements.GetKeyButton.MouseEnter:Connect(function()
+        Tween(elements.GetKeyButton, {BackgroundColor3 = Color3.fromRGB(60, 220, 130)}, 0.2)
+    end)
+    
+    elements.GetKeyButton.MouseLeave:Connect(function()
+        Tween(elements.GetKeyButton, {BackgroundColor3 = Color3.fromRGB(46, 204, 113)}, 0.2)
     end)
     
     elements.DiscordButton.MouseEnter:Connect(function()
@@ -466,10 +495,18 @@ local function StartKeySystem(onSuccess)
         end
     end)
     
+    -- Botão Pegar Key
+    elements.GetKeyButton.MouseButton1Click:Connect(function()
+        PulseEffect(elements.GetKeyButton)
+        setclipboard(KEY_CONFIG.KeyLink)
+        ShowStatus(elements.StatusLabel, "🔑 Link da key copiado! Cole no navegador!", true)
+    end)
+    
+    -- Botão Discord Criador
     elements.DiscordButton.MouseButton1Click:Connect(function()
         PulseEffect(elements.DiscordButton)
         setclipboard(KEY_CONFIG.DiscordLink)
-        ShowStatus(elements.StatusLabel, "📋 Link do Discord copiado!", true)
+        ShowStatus(elements.StatusLabel, "💬 Discord do criador copiado!", true)
     end)
     
     elements.CloseButton.MouseButton1Click:Connect(function()
