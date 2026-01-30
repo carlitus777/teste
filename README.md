@@ -560,7 +560,7 @@ StartKeySystem(function()
             TeamCheck = true
         },
         ESP = {
-            Enabled = true,
+            Enabled = false,
             BoxColor = Color3.fromRGB(255, 0, 255),
             NameColor = Color3.fromRGB(255, 255, 255),
             DistanceColor = Color3.fromRGB(0, 255, 255),
@@ -1146,7 +1146,7 @@ StartKeySystem(function()
 
     CreateSection("👁️ ESP")
 
-    CreateToggle("ESP (Já Ativo)", true, function(enabled)
+    CreateToggle("ESP", false, function(enabled)
         Settings.ESP.Enabled = enabled
     end)
 
@@ -1237,8 +1237,8 @@ StartKeySystem(function()
     -- ═══════════════════════════════════════════════════
 
     print("✅ KAKA HUB V4 carregado!")
-    print("🎯 Aimbot com detecção de times ativado!")
-    print("🔥 ESP ativo automaticamente!")
+    print("🎯 Aimbot: OFF (ative no hub)")
+    print("👁️ ESP: OFF (ative no hub)")
     print("🖐️ Use 3 dedos simultâneos para abrir o hub!")
     print("⚡ Team Check: " .. (HasMultipleTeams() and "Múltiplos times detectados!" or "Modo FFA detectado!"))
 end)
