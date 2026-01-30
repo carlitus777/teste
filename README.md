@@ -1147,58 +1147,57 @@ StartKeySystem(function()
     end)
 
     -- ═══════════════════════════════════════════════════
-    --      🖐️ SISTEMA DE 3 DEDOS SIMULTÂNEOS
+    --      🖐️ SISTEMA DE 3 DEDOS SIMULTÂNEOS (CORRIGIDO)
     -- ═══════════════════════════════════════════════════
 
     local activeTouches = {}
-    local hubOpenByTouch = false
+    local touchDebounce = false
 
     local function countActiveTouches()
         local count = 0
-        for _ in pairs(activeTouches) do
-            count = count + 1
+        for touch, active in pairs(activeTouches) do
+            if active then
+                count = count + 1
+            end
         end
         return count
     end
 
+    -- Detectar quando toca na tela
     UserInputService.TouchStarted:Connect(function(touch, gameProcessed)
-        if gameProcessed then return end
-        
+        -- Marcar toque como ativo
         activeTouches[touch] = true
         
-        if countActiveTouches() >= 3 and not hubOpenByTouch then
-            hubOpenByTouch = true
-            MainFrame.Visible = true
+        -- Verificar se tem 3 ou mais dedos
+        if countActiveTouches() >= 3 and not touchDebounce then
+            touchDebounce = true
+            MainFrame.Visible = not MainFrame.Visible
             
-            -- Resetar toques
-            task.wait(0.5)
-            activeTouches = {}
-            hubOpenByTouch = false
+            print("✅ Hub " .. (MainFrame.Visible and "aberto" or "fechado") .. " com 3 dedos!")
+            
+            -- Resetar após 1 segundo
+            task.spawn(function()
+                task.wait(1)
+                touchDebounce = false
+            end)
         end
     end)
 
+    -- Detectar quando tira o dedo da tela
     UserInputService.TouchEnded:Connect(function(touch, gameProcessed)
-        activeTouches[touch] = nil
+        activeTouches[touch] = false
     end)
 
-    -- ═══════════════════════════════════════════════════
-    --              BOTÃO DE TOGGLE (K)
-    -- ═══════════════════════════════════════════════════
-
-    local ToggleButton = Instance.new("TextButton")
-    ToggleButton.Size = UDim2.new(0, 50, 0, 50)
-    ToggleButton.Position = UDim2.new(0, 10, 0.5, -25)
-    ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
-    ToggleButton.Text = "K"
-    ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    ToggleButton.TextSize = 28
-    ToggleButton.Font = Enum.Font.GothamBold
-    ToggleButton.Parent = ScreenGui
-
-    Instance.new("UICorner", ToggleButton).CornerRadius = UDim.new(1, 0)
-
-    ToggleButton.MouseButton1Click:Connect(function()
-        MainFrame.Visible = not MainFrame.Visible
+    -- Limpar toques inativos periodicamente
+    task.spawn(function()
+        while true do
+            task.wait(2)
+            for touch, active in pairs(activeTouches) do
+                if not active then
+                    activeTouches[touch] = nil
+                end
+            end
+        end
     end)
 
     -- ═══════════════════════════════════════════════════
@@ -1219,7 +1218,7 @@ StartKeySystem(function()
         text.Size = UDim2.new(1, -20, 1, -20)
         text.Position = UDim2.new(0, 10, 0, 10)
         text.BackgroundTransparency = 1
-        text.Text = "🔥 KAKA HUB V4 ATUALIZADO!\n\nCarregado com sucesso!\n✨ Aimbot com detecção de times!\n🎯 ESP ativo automaticamente!\n🖐️ Use 3 dedos para abrir!"
+        text.Text = "🔥 KAKA HUB V4 ATUALIZADO!\n\nCarregado com sucesso!\n✨ Aimbot com detecção de times!\n🎯 ESP ativo automaticamente!\n🖐️ Use 3 dedos simultâneos para abrir!"
         text.TextColor3 = Color3.fromRGB(255, 255, 255)
         text.TextSize = 14
         text.Font = Enum.Font.GothamBold
@@ -1239,7 +1238,6 @@ StartKeySystem(function()
     print("✅ KAKA HUB V4 carregado!")
     print("🎯 Aimbot com detecção de times ativado!")
     print("🔥 ESP ativo automaticamente!")
-    print("💡 Clique no 'K' para abrir/fechar!")
-    print("🖐️ Ou use 3 dedos simultâneos na tela!")
+    print("🖐️ Use 3 dedos simultâneos para abrir o hub!")
     print("⚡ Team Check: " .. (HasMultipleTeams() and "Múltiplos times detectados!" or "Modo FFA detectado!"))
 end)
