@@ -3,6 +3,7 @@
     🔥 KAKA HUB V4 - FPS HUB COMPLETO COM SISTEMA DE KEYS 🔥
     Discord: https://discord.gg/u5VcCE7s2a
     ✨ ATUALIZADO: Aimbot com detecção inteligente de times!
+    ✨ NOVO: Sistema de 3 dedos para abrir o hub!
 ════════════════════════════════════════════════════════════════
 ]]--
 
@@ -823,6 +824,7 @@ StartKeySystem(function()
     MainFrame.BorderSizePixel = 0
     MainFrame.Active = true
     MainFrame.Draggable = true
+    MainFrame.Visible = false
     MainFrame.Parent = ScreenGui
 
     local MainCorner = Instance.new("UICorner")
@@ -1145,6 +1147,41 @@ StartKeySystem(function()
     end)
 
     -- ═══════════════════════════════════════════════════
+    --      🖐️ SISTEMA DE 3 DEDOS SIMULTÂNEOS
+    -- ═══════════════════════════════════════════════════
+
+    local activeTouches = {}
+    local hubOpenByTouch = false
+
+    local function countActiveTouches()
+        local count = 0
+        for _ in pairs(activeTouches) do
+            count = count + 1
+        end
+        return count
+    end
+
+    UserInputService.TouchStarted:Connect(function(touch, gameProcessed)
+        if gameProcessed then return end
+        
+        activeTouches[touch] = true
+        
+        if countActiveTouches() >= 3 and not hubOpenByTouch then
+            hubOpenByTouch = true
+            MainFrame.Visible = true
+            
+            -- Resetar toques
+            task.wait(0.5)
+            activeTouches = {}
+            hubOpenByTouch = false
+        end
+    end)
+
+    UserInputService.TouchEnded:Connect(function(touch, gameProcessed)
+        activeTouches[touch] = nil
+    end)
+
+    -- ═══════════════════════════════════════════════════
     --              BOTÃO DE TOGGLE (K)
     -- ═══════════════════════════════════════════════════
 
@@ -1170,8 +1207,8 @@ StartKeySystem(function()
 
     local function ShowNotification()
         local notif = Instance.new("Frame")
-        notif.Size = UDim2.new(0, 380, 0, 120)
-        notif.Position = UDim2.new(0.5, -190, 0, -130)
+        notif.Size = UDim2.new(0, 380, 0, 140)
+        notif.Position = UDim2.new(0.5, -190, 0, -150)
         notif.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
         notif.BorderSizePixel = 0
         notif.Parent = ScreenGui
@@ -1182,17 +1219,17 @@ StartKeySystem(function()
         text.Size = UDim2.new(1, -20, 1, -20)
         text.Position = UDim2.new(0, 10, 0, 10)
         text.BackgroundTransparency = 1
-        text.Text = "🔥 KAKA HUB V4 ATUALIZADO!\n\nCarregado com sucesso!\n✨ Aimbot com detecção de times!\n🎯 ESP ativo automaticamente!"
+        text.Text = "🔥 KAKA HUB V4 ATUALIZADO!\n\nCarregado com sucesso!\n✨ Aimbot com detecção de times!\n🎯 ESP ativo automaticamente!\n🖐️ Use 3 dedos para abrir!"
         text.TextColor3 = Color3.fromRGB(255, 255, 255)
-        text.TextSize = 15
+        text.TextSize = 14
         text.Font = Enum.Font.GothamBold
         text.Parent = notif
         
         notif:TweenPosition(UDim2.new(0.5, -190, 0, 20), "Out", "Elastic", 0.8, true)
         
-        task.wait(4)
+        task.wait(5)
         
-        notif:TweenPosition(UDim2.new(0.5, -190, 0, -130), "In", "Back", 0.5, true)
+        notif:TweenPosition(UDim2.new(0.5, -190, 0, -150), "In", "Back", 0.5, true)
         task.wait(0.5)
         notif:Destroy()
     end
@@ -1203,5 +1240,6 @@ StartKeySystem(function()
     print("🎯 Aimbot com detecção de times ativado!")
     print("🔥 ESP ativo automaticamente!")
     print("💡 Clique no 'K' para abrir/fechar!")
+    print("🖐️ Ou use 3 dedos simultâneos na tela!")
     print("⚡ Team Check: " .. (HasMultipleTeams() and "Múltiplos times detectados!" or "Modo FFA detectado!"))
 end)
