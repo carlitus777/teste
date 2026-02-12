@@ -793,59 +793,65 @@ StartKeySystem(function()
     CreateToggle("Auto TP Players", false, function(enabled) Settings.AutoTeleport.Enabled = enabled end)
     CreateSlider("Delay (segundos)", 0.5, 10, 2, function(value) Settings.AutoTeleport.Delay = value end)
 
-    CloseButton.MouseButton1Click:Connect(function() MainFrame.Visible = false end)
+    -- ═══════════════════════════════════════════════════════════
+    --  💝 MENSAGEM ROMÂNTICA (DENTRO DO SCROLL)
+    -- ═══════════════════════════════════════════════════════════
     
-    -- MENSAGEM ROMÂNTICA FIXA NO FINAL (FORA DO SCROLL)
     local RomanticMessage = Instance.new("Frame")
-    RomanticMessage.Size = UDim2.new(1, -40, 0, 80)
-    RomanticMessage.Position = UDim2.new(0, 20, 1, -90) -- Fixo no fundo do MainFrame
+    RomanticMessage.Name = "RomanticMessage"
+    RomanticMessage.Size = UDim2.new(1, -10, 0, 90)
     RomanticMessage.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
     RomanticMessage.BorderSizePixel = 0
-    RomanticMessage.ZIndex = 10
-    RomanticMessage.Parent = MainFrame
-    Instance.new("UICorner", RomanticMessage).CornerRadius = UDim.new(0, 12)
+    RomanticMessage.Parent = ContentFrame -- DENTRO DO SCROLL!
     
-    -- Borda brilhante
+    local MessageCorner = Instance.new("UICorner")
+    MessageCorner.CornerRadius = UDim.new(0, 12)
+    MessageCorner.Parent = RomanticMessage
+    
     local MessageStroke = Instance.new("UIStroke")
-    MessageStroke.Color = Color3.fromRGB(255, 182, 193)
-    MessageStroke.Thickness = 2
+    MessageStroke.Color = Color3.fromRGB(255, 255, 255)
+    MessageStroke.Thickness = 3
     MessageStroke.Parent = RomanticMessage
     
-    -- Texto "Script feito por Carlos"
     local CreditText = Instance.new("TextLabel")
-    CreditText.Size = UDim2.new(1, -20, 0, 35)
-    CreditText.Position = UDim2.new(0, 10, 0, 10)
+    CreditText.Size = UDim2.new(1, -20, 0, 40)
+    CreditText.Position = UDim2.new(0, 10, 0, 5)
     CreditText.BackgroundTransparency = 1
     CreditText.Text = "💻 Script feito por Carlos"
     CreditText.TextColor3 = Color3.fromRGB(255, 255, 255)
-    CreditText.TextSize = 16
+    CreditText.TextSize = 18
     CreditText.Font = Enum.Font.GothamBold
     CreditText.TextXAlignment = Enum.TextXAlignment.Center
     CreditText.Parent = RomanticMessage
     
-    -- Texto "Te amo Sara"
     local LoveText = Instance.new("TextLabel")
-    LoveText.Size = UDim2.new(1, -20, 0, 35)
-    LoveText.Position = UDim2.new(0, 10, 0, 35)
+    LoveText.Size = UDim2.new(1, -20, 0, 40)
+    LoveText.Position = UDim2.new(0, 10, 0, 45)
     LoveText.BackgroundTransparency = 1
     LoveText.Text = "💕 Te amo Sara 💕"
     LoveText.TextColor3 = Color3.fromRGB(255, 255, 255)
-    LoveText.TextSize = 18
+    LoveText.TextSize = 20
     LoveText.Font = Enum.Font.GothamBold
     LoveText.TextXAlignment = Enum.TextXAlignment.Center
     LoveText.Parent = RomanticMessage
     
-    -- Efeito de pulsar na mensagem
+    -- Animação de pulsar
     spawn(function()
+        local toggle = true
         while RomanticMessage and RomanticMessage.Parent do
-            TweenService:Create(RomanticMessage, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), 
-                {BackgroundColor3 = Color3.fromRGB(255, 182, 193)}):Play()
-            task.wait(1)
-            TweenService:Create(RomanticMessage, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), 
-                {BackgroundColor3 = Color3.fromRGB(255, 105, 180)}):Play()
+            if toggle then
+                RomanticMessage.BackgroundColor3 = Color3.fromRGB(255, 182, 193)
+            else
+                RomanticMessage.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+            end
+            toggle = not toggle
             task.wait(1)
         end
     end)
+    
+    print("💝 Mensagem romântica criada no ContentFrame!")
+
+    CloseButton.MouseButton1Click:Connect(function() MainFrame.Visible = false end)
 
     local hubTouches, hubDebounce = {}, false
     local destroyTouches = {}
