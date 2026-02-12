@@ -793,10 +793,12 @@ StartKeySystem(function()
     CreateToggle("Auto TP Players", false, function(enabled) Settings.AutoTeleport.Enabled = enabled end)
     CreateSlider("Delay (segundos)", 0.5, 10, 2, function(value) Settings.AutoTeleport.Delay = value end)
 
-    -- MENSAGEM ROMÂNTICA NO FINAL
+    CloseButton.MouseButton1Click:Connect(function() MainFrame.Visible = false end)
+    
+    -- MENSAGEM ROMÂNTICA FIXA NO FINAL (FORA DO SCROLL)
     local RomanticMessage = Instance.new("Frame")
     RomanticMessage.Size = UDim2.new(1, -40, 0, 80)
-    RomanticMessage.Position = UDim2.new(0, 20, 1, -90)
+    RomanticMessage.Position = UDim2.new(0, 20, 1, -90) -- Fixo no fundo do MainFrame
     RomanticMessage.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
     RomanticMessage.BorderSizePixel = 0
     RomanticMessage.ZIndex = 10
@@ -844,8 +846,6 @@ StartKeySystem(function()
             task.wait(1)
         end
     end)
-
-    CloseButton.MouseButton1Click:Connect(function() MainFrame.Visible = false end)
 
     local hubTouches, hubDebounce = {}, false
     local destroyTouches = {}
