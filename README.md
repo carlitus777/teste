@@ -1,53 +1,21 @@
 --[[
 ════════════════════════════════════════════════════════════════
-    🔥 KAKA HUB V4 - FPS HUB COMPLETO COM SISTEMA DE KEYS 🔥
-    Discord: https://discord.gg/u5VcCE7s2a
-    ✨ ATUALIZADO: Aimbot com detecção inteligente de times!
-    ✨ NOVO: Sistema de 3 dedos para abrir o hub!
+    🔥 KAKA HUB V4 - VERSÃO FINAL COMPLETA 🔥
+    Discord: https://discord.gg/uPU8Xwa64c
+    Link Key: https://direct-link.net/3181536/5L523TZ84xtQ
+    GitHub: https://carlitus777.github.io/kaka-hub-keys/
+    
+    ✨ SISTEMA COMPLETO:
+    - Keys geradas automaticamente
+    - Verificação de formato (KAKA-DDMMYYYY-XXXXXX)
+    - Auto save com expiração 24h
+    - ESP desativado por padrão
+    - Auto Teleport
+    - Detecção inteligente de 3 dedos
 ════════════════════════════════════════════════════════════════
 ]]--
 
-print("🔥 KAKA HUB V4 inicializando sistema de autenticação...")
-
--- ═══════════════════════════════════════════════════════════
---  🔧 CONFIGURAÇÕES DAS KEYS
--- ═══════════════════════════════════════════════════════════
-
-local KEY_CONFIG = {
-    Keys = {
-        "KAKA-2026-PREMIUM",
-        "KAKA-VIP-GOLD",
-        "KAKA-ULTIMATE",
-        "TESTE-KEY-123"
-        -- Adicione mais keys aqui
-    },
-    
-    DiscordLink = "https://discord.gg/u5VcCE7s2a",
-    KeyLink = "https://4br.me/r8uk0gW",
-    HubName = "KAKA HUB V4",
-    NotificationTime = 3,
-}
-
--- ═══════════════════════════════════════════════════════════
---  🎨 CORES DO KAKA HUB V4
--- ═══════════════════════════════════════════════════════════
-
-local COLORS = {
-    Background = Color3.fromRGB(20, 20, 30),
-    Secondary = Color3.fromRGB(30, 30, 45),
-    Primary = Color3.fromRGB(138, 43, 226),      -- Roxo principal
-    PrimaryDark = Color3.fromRGB(100, 30, 180),  -- Roxo escuro
-    Accent = Color3.fromRGB(186, 85, 211),       -- Roxo claro
-    Text = Color3.fromRGB(255, 255, 255),
-    TextDim = Color3.fromRGB(200, 200, 200),
-    Success = Color3.fromRGB(46, 204, 113),
-    Error = Color3.fromRGB(231, 76, 60),
-    Shadow = Color3.fromRGB(0, 0, 0)
-}
-
--- ═══════════════════════════════════════════════════════════
---  🛠️ SERVIÇOS
--- ═══════════════════════════════════════════════════════════
+print("🔥 KAKA HUB V4 FINAL inicializando...")
 
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -55,43 +23,79 @@ local Players = game:GetService("Players")
 local CoreGui = game:GetService("CoreGui")
 local LocalPlayer = Players.LocalPlayer
 
--- ═══════════════════════════════════════════════════════════
---  ✨ FUNÇÕES DE ANIMAÇÃO DO SISTEMA DE KEYS
--- ═══════════════════════════════════════════════════════════
+local KEY_CONFIG = {
+    DiscordLink = "https://discord.gg/uPU8Xwa64c",
+    KeyLink = "https://direct-link.net/3181536/5L523TZ84xtQ",
+    GitHubPage = "https://carlitus777.github.io/kaka-hub-keys/"
+}
+
+local COLORS = {
+    Background = Color3.fromRGB(20, 20, 30),
+    Secondary = Color3.fromRGB(30, 30, 45),
+    Primary = Color3.fromRGB(138, 43, 226),
+    PrimaryDark = Color3.fromRGB(100, 30, 180),
+    Accent = Color3.fromRGB(186, 85, 211),
+    KeyButton = Color3.fromRGB(46, 204, 113),
+    Text = Color3.fromRGB(255, 255, 255),
+    TextDim = Color3.fromRGB(200, 200, 200),
+    Success = Color3.fromRGB(46, 204, 113),
+    Error = Color3.fromRGB(231, 76, 60),
+}
+
+local SavedKeyFile = "KakaHubV4_SavedKey.json"
+
+local function SaveKey(key)
+    local keyData = {key = key, timestamp = os.time()}
+    writefile(SavedKeyFile, game:GetService("HttpService"):JSONEncode(keyData))
+end
+
+local function LoadSavedKey()
+    if isfile(SavedKeyFile) then
+        local success, data = pcall(function()
+            return game:GetService("HttpService"):JSONDecode(readfile(SavedKeyFile))
+        end)
+        if success and data then
+            if os.time() - data.timestamp < 86400 then
+                return data.key
+            else
+                delfile(SavedKeyFile)
+            end
+        end
+    end
+    return nil
+end
+
+local function VerifyKey(key)
+    if not key or type(key) ~= "string" then return false end
+    key = key:gsub("^%s*(.-)%s*$", "%1")
+    
+    local parts = {}
+    for part in key:gmatch("[^-]+") do table.insert(parts, part) end
+    
+    if #parts ~= 3 then return false end
+    if parts[1] ~= "KAKA" then return false end
+    if not parts[2]:match("^%d%d%d%d%d%d%d%d$") then return false end
+    if not parts[3]:match("^%w%w%w%w%w%w$") then return false end
+    
+    local keyDate = parts[2]
+    local today = os.date("%d%m%Y")
+    local yesterday = os.date("%d%m%Y", os.time() - 86400)
+    
+    return keyDate == today or keyDate == yesterday
+end
 
 local function Tween(object, goal, duration, style, direction)
-    local tweenInfo = TweenInfo.new(
-        duration or 0.3,
-        style or Enum.EasingStyle.Quad,
-        direction or Enum.EasingDirection.Out
-    )
-    local tween = TweenService:Create(object, tweenInfo, goal)
-    tween:Play()
-    return tween
+    return TweenService:Create(object, TweenInfo.new(duration or 0.3, style or Enum.EasingStyle.Quad, direction or Enum.EasingDirection.Out), goal):Play()
 end
-
-local function PulseEffect(object)
-    spawn(function()
-        local original = object.Size
-        Tween(object, {Size = original + UDim2.new(0, 5, 0, 5)}, 0.15)
-        wait(0.15)
-        Tween(object, {Size = original}, 0.15)
-    end)
-end
-
--- ═══════════════════════════════════════════════════════════
---  🖼️ CRIAR INTERFACE DO SISTEMA DE KEYS
--- ═══════════════════════════════════════════════════════════
 
 local function CreateKeySystem()
     local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Name = "KakaKeySystem_" .. math.random(1000, 9999)
+    ScreenGui.Name = "KakaKeySystem"
     ScreenGui.ResetOnSpawn = false
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     ScreenGui.IgnoreGuiInset = true
     
     local BlurFrame = Instance.new("Frame")
-    BlurFrame.Name = "BlurFrame"
     BlurFrame.Size = UDim2.new(1, 0, 1, 0)
     BlurFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     BlurFrame.BackgroundTransparency = 0.3
@@ -99,40 +103,19 @@ local function CreateKeySystem()
     BlurFrame.Parent = ScreenGui
     
     local MainContainer = Instance.new("Frame")
-    MainContainer.Name = "MainContainer"
-    MainContainer.Size = UDim2.new(0, 500, 0, 400)
-    MainContainer.Position = UDim2.new(0.5, -250, 0.5, -200)
+    MainContainer.Size = UDim2.new(0, 500, 0, 420)
+    MainContainer.Position = UDim2.new(0.5, -250, 0.5, -210)
     MainContainer.BackgroundColor3 = COLORS.Background
     MainContainer.BorderSizePixel = 0
-    MainContainer.ClipsDescendants = true
     MainContainer.Parent = ScreenGui
-    
-    local MainCorner = Instance.new("UICorner")
-    MainCorner.CornerRadius = UDim.new(0, 15)
-    MainCorner.Parent = MainContainer
-    
-    local Shadow = Instance.new("ImageLabel")
-    Shadow.Size = UDim2.new(1, 40, 1, 40)
-    Shadow.Position = UDim2.new(0, -20, 0, -20)
-    Shadow.BackgroundTransparency = 1
-    Shadow.Image = "rbxassetid://5554236805"
-    Shadow.ImageColor3 = COLORS.Shadow
-    Shadow.ImageTransparency = 0.5
-    Shadow.ScaleType = Enum.ScaleType.Slice
-    Shadow.SliceCenter = Rect.new(23, 23, 277, 277)
-    Shadow.ZIndex = 0
-    Shadow.Parent = MainContainer
+    Instance.new("UICorner", MainContainer).CornerRadius = UDim.new(0, 15)
     
     local TopBar = Instance.new("Frame")
-    TopBar.Name = "TopBar"
     TopBar.Size = UDim2.new(1, 0, 0, 60)
     TopBar.BackgroundColor3 = COLORS.Primary
     TopBar.BorderSizePixel = 0
     TopBar.Parent = MainContainer
-    
-    local TopCorner = Instance.new("UICorner")
-    TopCorner.CornerRadius = UDim.new(0, 15)
-    TopCorner.Parent = TopBar
+    Instance.new("UICorner", TopBar).CornerRadius = UDim.new(0, 15)
     
     local TopFill = Instance.new("Frame")
     TopFill.Size = UDim2.new(1, 0, 0, 30)
@@ -141,48 +124,18 @@ local function CreateKeySystem()
     TopFill.BorderSizePixel = 0
     TopFill.Parent = TopBar
     
-    local Gradient = Instance.new("UIGradient")
-    Gradient.Color = ColorSequence.new{
-        ColorSequenceKeypoint.new(0, COLORS.Primary),
-        ColorSequenceKeypoint.new(1, COLORS.PrimaryDark)
-    }
-    Gradient.Rotation = 90
-    Gradient.Parent = TopBar
-    
-    local Icon = Instance.new("TextLabel")
-    Icon.Size = UDim2.new(0, 50, 0, 50)
-    Icon.Position = UDim2.new(0, 15, 0, 5)
-    Icon.BackgroundTransparency = 1
-    Icon.Text = "🔑"
-    Icon.TextColor3 = COLORS.Text
-    Icon.Font = Enum.Font.GothamBold
-    Icon.TextSize = 28
-    Icon.Parent = TopBar
-    
     local Title = Instance.new("TextLabel")
-    Title.Size = UDim2.new(1, -160, 1, 0)
+    Title.Size = UDim2.new(1, -100, 1, 0)
     Title.Position = UDim2.new(0, 70, 0, 0)
     Title.BackgroundTransparency = 1
-    Title.Text = "KAKA HUB V4"
+    Title.Text = "🔑 KAKA HUB V4"
     Title.TextColor3 = COLORS.Text
     Title.Font = Enum.Font.GothamBold
     Title.TextSize = 22
     Title.TextXAlignment = Enum.TextXAlignment.Left
     Title.Parent = TopBar
     
-    local Subtitle = Instance.new("TextLabel")
-    Subtitle.Size = UDim2.new(1, 0, 0, 15)
-    Subtitle.Position = UDim2.new(0, 0, 1, -18)
-    Subtitle.BackgroundTransparency = 1
-    Subtitle.Text = "Sistema de Autenticacao"
-    Subtitle.TextColor3 = Color3.fromRGB(220, 220, 220)
-    Subtitle.Font = Enum.Font.Gotham
-    Subtitle.TextSize = 12
-    Subtitle.TextXAlignment = Enum.TextXAlignment.Left
-    Subtitle.Parent = Title
-    
     local CloseButton = Instance.new("TextButton")
-    CloseButton.Name = "CloseButton"
     CloseButton.Size = UDim2.new(0, 40, 0, 40)
     CloseButton.Position = UDim2.new(1, -50, 0, 10)
     CloseButton.BackgroundColor3 = COLORS.Error
@@ -190,12 +143,8 @@ local function CreateKeySystem()
     CloseButton.TextColor3 = COLORS.Text
     CloseButton.Font = Enum.Font.GothamBold
     CloseButton.TextSize = 20
-    CloseButton.AutoButtonColor = false
     CloseButton.Parent = TopBar
-    
-    local CloseCorner = Instance.new("UICorner")
-    CloseCorner.CornerRadius = UDim.new(0, 10)
-    CloseCorner.Parent = CloseButton
+    Instance.new("UICorner", CloseButton).CornerRadius = UDim.new(0, 10)
     
     local Content = Instance.new("Frame")
     Content.Size = UDim2.new(1, -50, 1, -110)
@@ -206,12 +155,11 @@ local function CreateKeySystem()
     local Description = Instance.new("TextLabel")
     Description.Size = UDim2.new(1, 0, 0, 70)
     Description.BackgroundTransparency = 1
-    Description.Text = "🔐 Digite sua chave de acesso para usar o hub\n\nSe voce nao possui uma chave, pegue nos botoes abaixo"
+    Description.Text = "🔐 Digite sua chave de acesso\n\nPegue sua key nos botões abaixo"
     Description.TextColor3 = COLORS.TextDim
     Description.Font = Enum.Font.Gotham
     Description.TextSize = 14
     Description.TextWrapped = true
-    Description.TextYAlignment = Enum.TextYAlignment.Top
     Description.Parent = Content
     
     local InputFrame = Instance.new("Frame")
@@ -220,37 +168,22 @@ local function CreateKeySystem()
     InputFrame.BackgroundColor3 = COLORS.Secondary
     InputFrame.BorderSizePixel = 0
     InputFrame.Parent = Content
-    
-    local InputCorner = Instance.new("UICorner")
-    InputCorner.CornerRadius = UDim.new(0, 10)
-    InputCorner.Parent = InputFrame
-    
-    local InputIcon = Instance.new("TextLabel")
-    InputIcon.Size = UDim2.new(0, 40, 1, 0)
-    InputIcon.BackgroundTransparency = 1
-    InputIcon.Text = "🔑"
-    InputIcon.TextColor3 = COLORS.Accent
-    InputIcon.Font = Enum.Font.GothamBold
-    InputIcon.TextSize = 20
-    InputIcon.Parent = InputFrame
+    Instance.new("UICorner", InputFrame).CornerRadius = UDim.new(0, 10)
     
     local KeyInput = Instance.new("TextBox")
-    KeyInput.Name = "KeyInput"
     KeyInput.Size = UDim2.new(1, -50, 1, 0)
     KeyInput.Position = UDim2.new(0, 45, 0, 0)
     KeyInput.BackgroundTransparency = 1
-    KeyInput.PlaceholderText = "Digite sua key aqui..."
+    KeyInput.PlaceholderText = "Cole a key aqui..."
     KeyInput.PlaceholderColor3 = COLORS.TextDim
     KeyInput.Text = ""
     KeyInput.TextColor3 = COLORS.Text
     KeyInput.Font = Enum.Font.GothamMedium
     KeyInput.TextSize = 15
     KeyInput.TextXAlignment = Enum.TextXAlignment.Left
-    KeyInput.ClearTextOnFocus = false
     KeyInput.Parent = InputFrame
     
     local VerifyButton = Instance.new("TextButton")
-    VerifyButton.Name = "VerifyButton"
     VerifyButton.Size = UDim2.new(1, 0, 0, 50)
     VerifyButton.Position = UDim2.new(0, 0, 0, 145)
     VerifyButton.BackgroundColor3 = COLORS.Primary
@@ -258,57 +191,32 @@ local function CreateKeySystem()
     VerifyButton.TextColor3 = COLORS.Text
     VerifyButton.Font = Enum.Font.GothamBold
     VerifyButton.TextSize = 16
-    VerifyButton.AutoButtonColor = false
     VerifyButton.Parent = Content
+    Instance.new("UICorner", VerifyButton).CornerRadius = UDim.new(0, 10)
     
-    local VerifyCorner = Instance.new("UICorner")
-    VerifyCorner.CornerRadius = UDim.new(0, 10)
-    VerifyCorner.Parent = VerifyButton
-    
-    local VerifyGradient = Instance.new("UIGradient")
-    VerifyGradient.Color = ColorSequence.new{
-        ColorSequenceKeypoint.new(0, COLORS.Primary),
-        ColorSequenceKeypoint.new(1, COLORS.PrimaryDark)
-    }
-    VerifyGradient.Rotation = 90
-    VerifyGradient.Parent = VerifyButton
-    
-    -- BOTÃO PEGAR KEY (NOVO)
     local GetKeyButton = Instance.new("TextButton")
-    GetKeyButton.Name = "GetKeyButton"
-    GetKeyButton.Size = UDim2.new(1, 0, 0, 45)
+    GetKeyButton.Size = UDim2.new(1, 0, 0, 50)
     GetKeyButton.Position = UDim2.new(0, 0, 0, 205)
-    GetKeyButton.BackgroundColor3 = Color3.fromRGB(46, 204, 113)
+    GetKeyButton.BackgroundColor3 = COLORS.KeyButton
     GetKeyButton.Text = "🔑 PEGAR KEY AQUI"
     GetKeyButton.TextColor3 = COLORS.Text
     GetKeyButton.Font = Enum.Font.GothamBold
-    GetKeyButton.TextSize = 14
-    GetKeyButton.AutoButtonColor = false
+    GetKeyButton.TextSize = 16
     GetKeyButton.Parent = Content
+    Instance.new("UICorner", GetKeyButton).CornerRadius = UDim.new(0, 10)
     
-    local GetKeyCorner = Instance.new("UICorner")
-    GetKeyCorner.CornerRadius = UDim.new(0, 10)
-    GetKeyCorner.Parent = GetKeyButton
-    
-    -- BOTÃO DISCORD CRIADOR (RENOMEADO)
     local DiscordButton = Instance.new("TextButton")
-    DiscordButton.Name = "DiscordButton"
-    DiscordButton.Size = UDim2.new(1, 0, 0, 45)
-    DiscordButton.Position = UDim2.new(0, 0, 0, 260)
+    DiscordButton.Size = UDim2.new(1, 0, 0, 50)
+    DiscordButton.Position = UDim2.new(0, 0, 0, 265)
     DiscordButton.BackgroundColor3 = COLORS.Accent
     DiscordButton.Text = "💬 DISCORD CRIADOR"
     DiscordButton.TextColor3 = COLORS.Text
     DiscordButton.Font = Enum.Font.GothamBold
-    DiscordButton.TextSize = 14
-    DiscordButton.AutoButtonColor = false
+    DiscordButton.TextSize = 16
     DiscordButton.Parent = Content
-    
-    local DiscordCorner = Instance.new("UICorner")
-    DiscordCorner.CornerRadius = UDim.new(0, 10)
-    DiscordCorner.Parent = DiscordButton
+    Instance.new("UICorner", DiscordButton).CornerRadius = UDim.new(0, 10)
     
     local StatusLabel = Instance.new("TextLabel")
-    StatusLabel.Name = "StatusLabel"
     StatusLabel.Size = UDim2.new(1, 0, 0, 25)
     StatusLabel.Position = UDim2.new(0, 0, 1, -30)
     StatusLabel.BackgroundTransparency = 1
@@ -319,444 +227,209 @@ local function CreateKeySystem()
     StatusLabel.Visible = false
     StatusLabel.Parent = MainContainer
     
-    return ScreenGui, {
-        MainContainer = MainContainer,
-        CloseButton = CloseButton,
-        KeyInput = KeyInput,
-        VerifyButton = VerifyButton,
-        GetKeyButton = GetKeyButton,
-        DiscordButton = DiscordButton,
-        StatusLabel = StatusLabel,
-        InputFrame = InputFrame
-    }
+    return ScreenGui, {MainContainer = MainContainer, CloseButton = CloseButton, KeyInput = KeyInput, 
+           VerifyButton = VerifyButton, GetKeyButton = GetKeyButton, DiscordButton = DiscordButton, 
+           StatusLabel = StatusLabel}
 end
 
--- ═══════════════════════════════════════════════════════════
---  🔍 VERIFICAR KEY
--- ═══════════════════════════════════════════════════════════
-
-local function VerifyKey(key)
-    for _, validKey in ipairs(KEY_CONFIG.Keys) do
-        if key == validKey then
-            return true
-        end
-    end
-    return false
+local function IsTouchOnButton(touchPos)
+    local screenSize = workspace.CurrentCamera.ViewportSize
+    local touchX, touchY = touchPos.X, touchPos.Y
+    return (touchX < screenSize.X * 0.25 and touchY > screenSize.Y * 0.6) or 
+           (touchX > screenSize.X * 0.75 and touchY > screenSize.Y * 0.6)
 end
-
--- ═══════════════════════════════════════════════════════════
---  📢 MOSTRAR STATUS
--- ═══════════════════════════════════════════════════════════
-
-local function ShowStatus(label, message, isSuccess)
-    label.Text = message
-    label.TextColor3 = isSuccess and COLORS.Success or COLORS.Error
-    label.Visible = true
-    label.TextTransparency = 1
-    
-    Tween(label, {TextTransparency = 0}, 0.3)
-    
-    task.wait(KEY_CONFIG.NotificationTime)
-    
-    Tween(label, {TextTransparency = 1}, 0.3).Completed:Wait()
-    label.Visible = false
-end
-
--- ═══════════════════════════════════════════════════════════
---  🎮 SISTEMA DE AUTENTICAÇÃO COM 3 DEDOS
--- ═══════════════════════════════════════════════════════════
 
 local function StartKeySystem(onSuccess)
-    local gui, elements = CreateKeySystem()
-    gui.Parent = CoreGui
-    
-    -- Iniciar invisível
-    gui.Enabled = false
-    
-    -- Sistema de 3 dedos para abrir a tela de Key
-    local activeTouches = {}
-    local keySystemOpen = false
-    
-    local function countTouches()
-        local count = 0
-        for _, active in pairs(activeTouches) do
-            if active then count = count + 1 end
-        end
-        return count
+    local savedKey = LoadSavedKey()
+    if savedKey and VerifyKey(savedKey) then
+        print("✅ Key verificada automaticamente!")
+        task.wait(0.5)
+        if onSuccess then onSuccess() end
+        return
     end
     
-    UserInputService.TouchStarted:Connect(function(touch, gameProcessed)
+    local gui, elements = CreateKeySystem()
+    gui.Parent = CoreGui
+    gui.Enabled = false
+    
+    local activeTouches, keySystemOpen = {}, false
+    
+    UserInputService.TouchStarted:Connect(function(touch)
         if keySystemOpen then return end
+        if not IsTouchOnButton(touch.Position) then activeTouches[touch] = true end
         
-        activeTouches[touch] = true
+        local count = 0
+        for _, active in pairs(activeTouches) do if active then count = count + 1 end end
         
-        if countTouches() >= 3 then
+        if count >= 3 then
             keySystemOpen = true
             gui.Enabled = true
-            
             elements.MainContainer.Size = UDim2.new(0, 0, 0, 0)
-            elements.MainContainer.Position = UDim2.new(0.5, 0, 0.5, 0)
-            
-            Tween(
-                elements.MainContainer,
-                {
-                    Size = UDim2.new(0, 500, 0, 400),
-                    Position = UDim2.new(0.5, -250, 0.5, -200)
-                },
-                0.5,
-                Enum.EasingStyle.Back
-            )
-            
-            print("🔑 Sistema de Keys aberto com 3 dedos!")
+            Tween(elements.MainContainer, {Size = UDim2.new(0, 500, 0, 420), Position = UDim2.new(0.5, -250, 0.5, -210)}, 0.5, Enum.EasingStyle.Back)
         end
     end)
     
-    UserInputService.TouchEnded:Connect(function(touch, gameProcessed)
-        activeTouches[touch] = false
-    end)
+    UserInputService.TouchEnded:Connect(function(touch) activeTouches[touch] = false end)
     
-    elements.VerifyButton.MouseEnter:Connect(function()
-        Tween(elements.VerifyButton, {BackgroundColor3 = COLORS.Accent}, 0.2)
-        PulseEffect(elements.VerifyButton)
-    end)
-    
-    elements.VerifyButton.MouseLeave:Connect(function()
-        Tween(elements.VerifyButton, {BackgroundColor3 = COLORS.Primary}, 0.2)
-    end)
-    
-    -- Hover efeito botão Pegar Key
-    elements.GetKeyButton.MouseEnter:Connect(function()
-        Tween(elements.GetKeyButton, {BackgroundColor3 = Color3.fromRGB(60, 220, 130)}, 0.2)
-    end)
-    
-    elements.GetKeyButton.MouseLeave:Connect(function()
-        Tween(elements.GetKeyButton, {BackgroundColor3 = Color3.fromRGB(46, 204, 113)}, 0.2)
-    end)
-    
-    elements.DiscordButton.MouseEnter:Connect(function()
-        Tween(elements.DiscordButton, {BackgroundColor3 = Color3.fromRGB(200, 100, 230)}, 0.2)
-    end)
-    
-    elements.DiscordButton.MouseLeave:Connect(function()
-        Tween(elements.DiscordButton, {BackgroundColor3 = COLORS.Accent}, 0.2)
-    end)
-    
-    elements.KeyInput.Focused:Connect(function()
-        Tween(elements.InputFrame, {BackgroundColor3 = Color3.fromRGB(40, 40, 60)}, 0.2)
-    end)
-    
-    elements.KeyInput.FocusLost:Connect(function()
-        Tween(elements.InputFrame, {BackgroundColor3 = COLORS.Secondary}, 0.2)
-    end)
+    local function ShowStatus(msg, success)
+        elements.StatusLabel.Text = msg
+        elements.StatusLabel.TextColor3 = success and COLORS.Success or COLORS.Error
+        elements.StatusLabel.Visible = true
+        task.wait(2)
+        elements.StatusLabel.Visible = false
+    end
     
     elements.VerifyButton.MouseButton1Click:Connect(function()
         local key = elements.KeyInput.Text:gsub("^%s*(.-)%s*$", "%1")
-        
-        if key == "" then
-            ShowStatus(elements.StatusLabel, "❌ Por favor, digite uma key!", false)
-            return
-        end
-        
-        PulseEffect(elements.VerifyButton)
+        if key == "" then ShowStatus("❌ Digite uma key!", false) return end
         
         if VerifyKey(key) then
-            ShowStatus(elements.StatusLabel, "✅ Key valida! Carregando hub...", true)
-            
-            task.wait(1.5)
-            
-            Tween(
-                elements.MainContainer,
-                {
-                    Size = UDim2.new(0, 0, 0, 0),
-                    Position = UDim2.new(0.5, 0, 0.5, 0)
-                },
-                0.4,
-                Enum.EasingStyle.Back,
-                Enum.EasingDirection.In
-            ).Completed:Wait()
-            
+            ShowStatus("✅ Key válida!", true)
+            SaveKey(key)
+            task.wait(1)
             gui:Destroy()
-            
-            if onSuccess then
-                onSuccess()
-            end
+            if onSuccess then onSuccess() end
         else
-            ShowStatus(elements.StatusLabel, "❌ Key invalida! Tente novamente.", false)
+            ShowStatus("❌ Key inválida!", false)
             elements.KeyInput.Text = ""
-            
-            local original = elements.InputFrame.Position
-            for i = 1, 3 do
-                Tween(elements.InputFrame, {Position = original + UDim2.new(0, -10, 0, 0)}, 0.05)
-                wait(0.05)
-                Tween(elements.InputFrame, {Position = original + UDim2.new(0, 10, 0, 0)}, 0.05)
-                wait(0.05)
-            end
-            Tween(elements.InputFrame, {Position = original}, 0.1)
         end
     end)
     
-    -- Botão Pegar Key
     elements.GetKeyButton.MouseButton1Click:Connect(function()
-        PulseEffect(elements.GetKeyButton)
         setclipboard(KEY_CONFIG.KeyLink)
-        ShowStatus(elements.StatusLabel, "🔑 Link da key copiado! Cole no navegador!", true)
+        ShowStatus("🔑 Link copiado!", true)
     end)
     
-    -- Botão Discord Criador
     elements.DiscordButton.MouseButton1Click:Connect(function()
-        PulseEffect(elements.DiscordButton)
         setclipboard(KEY_CONFIG.DiscordLink)
-        ShowStatus(elements.StatusLabel, "💬 Discord do criador copiado!", true)
+        ShowStatus("💬 Discord copiado!", true)
     end)
     
-    elements.CloseButton.MouseButton1Click:Connect(function()
-        Tween(
-            elements.MainContainer,
-            {
-                Size = UDim2.new(0, 0, 0, 0),
-                Position = UDim2.new(0.5, 0, 0.5, 0)
-            },
-            0.3,
-            Enum.EasingStyle.Back,
-            Enum.EasingDirection.In
-        ).Completed:Wait()
-        gui:Destroy()
-    end)
-    
-    elements.KeyInput.FocusLost:Connect(function(enterPressed)
-        if enterPressed then
-            elements.VerifyButton.MouseButton1Click:Fire()
-        end
-    end)
-    
-    local dragging, dragInput, dragStart, startPos
-    
-    local function update(input)
-        local delta = input.Position - dragStart
-        Tween(elements.MainContainer, {Position = UDim2.new(
-            startPos.X.Scale,
-            startPos.X.Offset + delta.X,
-            startPos.Y.Scale,
-            startPos.Y.Offset + delta.Y
-        )}, 0.1, Enum.EasingStyle.Linear)
-    end
-    
-    elements.MainContainer.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            dragStart = input.Position
-            startPos = elements.MainContainer.Position
-            
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                end
-            end)
-        end
-    end)
-    
-    elements.MainContainer.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement then
-            dragInput = input
-        end
-    end)
-    
-    UserInputService.InputChanged:Connect(function(input)
-        if input == dragInput and dragging then
-            update(input)
-        end
-    end)
+    elements.CloseButton.MouseButton1Click:Connect(function() gui:Destroy() end)
 end
 
--- ═══════════════════════════════════════════════════════════
---  🚀 INICIAR SISTEMA E CARREGAR HUB
--- ═══════════════════════════════════════════════════════════
-
 StartKeySystem(function()
-    print("✅ Key verificada com sucesso!")
-    print("🚀 Carregando KAKA HUB V4...")
-    
-    -- ═══════════════════════════════════════════════════
-    --              🔥 SEU HUB COMEÇA AQUI 🔥
-    -- ═══════════════════════════════════════════════════
+    print("✅ Carregando HUB...")
     
     local Camera = workspace.CurrentCamera
     local RunService = game:GetService("RunService")
     local Teams = game:GetService("Teams")
 
-    -- ═══════════════════════════════════════════════════
-    --                  CONFIGURAÇÕES DO HUB
-    -- ═══════════════════════════════════════════════════
-
     local Settings = {
-        Aimbot = {
-            Enabled = false,
-            FOV = 150,
-            WallCheck = true,
-            TargetPart = "Head",
-            TeamCheck = true
-        },
-        ESP = {
-            Enabled = false,
-            BoxColor = Color3.fromRGB(255, 0, 255),
-            NameColor = Color3.fromRGB(255, 255, 255),
-            DistanceColor = Color3.fromRGB(0, 255, 255),
-            HealthBarEnabled = true
-        },
-        Teleport = {
-            SelectedPlayer = nil
-        }
+        Aimbot = {Enabled = false, FOV = 150, WallCheck = true, TargetPart = "Head", TeamCheck = true},
+        ESP = {Enabled = false, BoxColor = Color3.fromRGB(255, 0, 255), NameColor = Color3.fromRGB(255, 255, 255), 
+               DistanceColor = Color3.fromRGB(0, 255, 255), HealthBarEnabled = true},
+        AutoTeleport = {Enabled = false, Delay = 2}  -- Delay padrão: 2 segundos (mais rápido)
     }
 
-    -- ═══════════════════════════════════════════════════
-    --           FUNÇÕES DE DETECÇÃO DE TIMES
-    -- ═══════════════════════════════════════════════════
-
     local function HasMultipleTeams()
-        local teamCount = 0
-        for _, team in pairs(Teams:GetTeams()) do
-            teamCount = teamCount + 1
-        end
-        return teamCount > 1
+        local count = 0
+        for _ in pairs(Teams:GetTeams()) do count = count + 1 end
+        return count > 1
     end
 
     local function IsEnemy(player)
-        if not Settings.Aimbot.TeamCheck then
-            return true
-        end
-        
-        if not HasMultipleTeams() then
-            return true
-        end
-        
-        if LocalPlayer.Team and player.Team then
-            return LocalPlayer.Team ~= player.Team
-        end
-        
+        if not Settings.Aimbot.TeamCheck or not HasMultipleTeams() then return true end
+        if LocalPlayer.Team and player.Team then return LocalPlayer.Team ~= player.Team end
         return true
     end
 
-    -- ═══════════════════════════════════════════════════
-    --                  FUNÇÕES ÚTEIS
-    -- ═══════════════════════════════════════════════════
-
     local function IsVisible(targetChar)
         if not Settings.Aimbot.WallCheck then return true end
-        
         local char = LocalPlayer.Character
         if not char then return false end
-        
         local origin = char:FindFirstChild("HumanoidRootPart")
         local target = targetChar:FindFirstChild(Settings.Aimbot.TargetPart)
-        
         if not origin or not target then return false end
-        
         local ray = Ray.new(origin.Position, (target.Position - origin.Position).Unit * 1000)
         local hit = workspace:FindPartOnRayWithIgnoreList(ray, {char, Camera})
-        
         return hit and hit:IsDescendantOf(targetChar)
     end
 
     local function GetClosestPlayerInFOV()
-        local closestPlayer = nil
-        local shortestDistance = Settings.Aimbot.FOV
+        local closestPlayer, shortestDistance = nil, Settings.Aimbot.FOV
+        local screenCenter = Camera.ViewportSize / 2 -- Centro da tela
         
         for _, player in pairs(Players:GetPlayers()) do
-            if player ~= LocalPlayer and player.Character then
-                if IsEnemy(player) then
-                    local char = player.Character
-                    local humanoid = char:FindFirstChild("Humanoid")
-                    local targetPart = char:FindFirstChild(Settings.Aimbot.TargetPart)
-                    
-                    if humanoid and humanoid.Health > 0 and targetPart then
-                        local screenPos, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
+            if player ~= LocalPlayer and player.Character and IsEnemy(player) then
+                local char = player.Character
+                local humanoid = char:FindFirstChild("Humanoid")
+                local targetPart = char:FindFirstChild(Settings.Aimbot.TargetPart)
+                if humanoid and humanoid.Health > 0 and targetPart then
+                    local screenPos, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
+                    if onScreen then
+                        -- Calcula distância do centro da tela (onde está o FOV)
+                        local distance = (Vector2.new(screenPos.X, screenPos.Y) - screenCenter).Magnitude
                         
-                        if onScreen then
-                            local mousePos = UserInputService:GetMouseLocation()
-                            local distance = (Vector2.new(screenPos.X, screenPos.Y) - mousePos).Magnitude
-                            
-                            if distance < shortestDistance then
-                                if IsVisible(char) then
-                                    closestPlayer = player
-                                    shortestDistance = distance
-                                end
-                            end
+                        -- Verifica se está dentro do FOV e é o mais próximo
+                        if distance < shortestDistance and IsVisible(char) then
+                            closestPlayer = player
+                            shortestDistance = distance
                         end
                     end
                 end
             end
         end
-        
         return closestPlayer
     end
 
-    -- ═══════════════════════════════════════════════════
-    --                    AIMBOT
-    -- ═══════════════════════════════════════════════════
-
-    RunService.RenderStepped:Connect(function()
+    -- AIMBOT MELHORADO
+    local aimbotConnection
+    aimbotConnection = RunService.RenderStepped:Connect(function()
         if Settings.Aimbot.Enabled then
             local target = GetClosestPlayerInFOV()
-            
             if target and target.Character then
                 local targetPart = target.Character:FindFirstChild(Settings.Aimbot.TargetPart)
-                
                 if targetPart then
+                    -- Aimbot FORTE - mira diretamente
                     Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetPart.Position)
                 end
             end
         end
     end)
 
-    -- ═══════════════════════════════════════════════════
-    --                     ESP
-    -- ═══════════════════════════════════════════════════
-
     local ESPObjects = {}
 
     local function CreateESP(player)
         if ESPObjects[player] then return end
-        
-        local esp = {
+        ESPObjects[player] = {
             Box = Drawing.new("Square"),
             Name = Drawing.new("Text"),
             Distance = Drawing.new("Text"),
             HealthBar = Drawing.new("Line"),
             HealthBarBG = Drawing.new("Line")
         }
-        
+        local esp = ESPObjects[player]
         esp.Box.Thickness = 2
         esp.Box.Filled = false
-        esp.Box.Color = Settings.ESP.BoxColor
         esp.Box.Visible = false
         esp.Box.ZIndex = 2
-        
         esp.Name.Size = 14
         esp.Name.Center = true
         esp.Name.Outline = true
-        esp.Name.Color = Settings.ESP.NameColor
         esp.Name.Visible = false
         esp.Name.ZIndex = 2
-        
         esp.Distance.Size = 12
         esp.Distance.Center = true
         esp.Distance.Outline = true
-        esp.Distance.Color = Settings.ESP.DistanceColor
         esp.Distance.Visible = false
         esp.Distance.ZIndex = 2
-        
         esp.HealthBarBG.Thickness = 3
         esp.HealthBarBG.Color = Color3.fromRGB(0, 0, 0)
         esp.HealthBarBG.Visible = false
-        esp.HealthBarBG.ZIndex = 1
-        
         esp.HealthBar.Thickness = 3
-        esp.HealthBar.Color = Color3.fromRGB(0, 255, 0)
         esp.HealthBar.Visible = false
         esp.HealthBar.ZIndex = 2
-        
-        ESPObjects[player] = esp
     end
+
+    spawn(function()
+        while true do
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= LocalPlayer and not ESPObjects[player] then CreateESP(player) end
+            end
+            task.wait(1)
+        end
+    end)
 
     local function UpdateESP()
         for player, esp in pairs(ESPObjects) do
@@ -764,23 +437,17 @@ StartKeySystem(function()
                 local char = player.Character
                 local hrp = char.HumanoidRootPart
                 local humanoid = char.Humanoid
-                
                 local screenPos, onScreen = Camera:WorldToViewportPoint(hrp.Position)
                 
                 if onScreen and Settings.ESP.Enabled then
                     local headPos = Camera:WorldToViewportPoint(char.Head.Position + Vector3.new(0, 0.5, 0))
                     local legPos = Camera:WorldToViewportPoint(hrp.Position - Vector3.new(0, 3, 0))
-                    
                     local height = math.abs(headPos.Y - legPos.Y)
                     local width = height / 2
                     
                     local boxColor = Settings.ESP.BoxColor
                     if HasMultipleTeams() and player.Team then
-                        if player.Team == LocalPlayer.Team then
-                            boxColor = Color3.fromRGB(0, 255, 0)
-                        else
-                            boxColor = Color3.fromRGB(255, 0, 0)
-                        end
+                        boxColor = player.Team == LocalPlayer.Team and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
                     end
                     
                     esp.Box.Size = Vector2.new(width, height)
@@ -790,20 +457,20 @@ StartKeySystem(function()
                     
                     esp.Name.Text = player.Name
                     esp.Name.Position = Vector2.new(screenPos.X, headPos.Y - 20)
+                    esp.Name.Color = Settings.ESP.NameColor
                     esp.Name.Visible = true
                     
                     local distance = math.floor((hrp.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude)
                     esp.Distance.Text = tostring(distance) .. "m"
                     esp.Distance.Position = Vector2.new(screenPos.X, legPos.Y + 5)
+                    esp.Distance.Color = Settings.ESP.DistanceColor
                     esp.Distance.Visible = true
                     
                     if Settings.ESP.HealthBarEnabled then
                         local healthPercent = humanoid.Health / humanoid.MaxHealth
-                        
                         esp.HealthBarBG.From = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y - height / 2)
                         esp.HealthBarBG.To = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y + height / 2)
                         esp.HealthBarBG.Visible = true
-                        
                         esp.HealthBar.From = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y - height / 2)
                         esp.HealthBar.To = Vector2.new(screenPos.X - width / 2 - 6, screenPos.Y - height / 2 + height * healthPercent)
                         esp.HealthBar.Color = Color3.fromRGB(255 * (1 - healthPercent), 255 * healthPercent, 0)
@@ -826,94 +493,140 @@ StartKeySystem(function()
         end
     end
 
-    for _, player in pairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer then
-            CreateESP(player)
-        end
-    end
-
-    Players.PlayerAdded:Connect(function(player)
-        CreateESP(player)
-    end)
-
     Players.PlayerRemoving:Connect(function(player)
         if ESPObjects[player] then
-            for _, drawing in pairs(ESPObjects[player]) do
-                drawing:Remove()
-            end
+            for _, drawing in pairs(ESPObjects[player]) do drawing:Remove() end
             ESPObjects[player] = nil
         end
     end)
 
     RunService.RenderStepped:Connect(UpdateESP)
 
-    -- ═══════════════════════════════════════════════════
-    --                  FOV CIRCLE
-    -- ═══════════════════════════════════════════════════
-
-    local FOVCircle = Drawing.new("Circle")
-    FOVCircle.Thickness = 3
-    FOVCircle.NumSides = 64
-    FOVCircle.Radius = Settings.Aimbot.FOV
-    FOVCircle.Filled = false
-    FOVCircle.Visible = true
-    FOVCircle.ZIndex = 999
-    FOVCircle.Transparency = 1
-    FOVCircle.Color = Color3.fromRGB(255, 0, 255)
-
-    local hue = 0
-    RunService.RenderStepped:Connect(function()
-        local mousePos = UserInputService:GetMouseLocation()
-        FOVCircle.Position = mousePos
-        FOVCircle.Radius = Settings.Aimbot.FOV
-        
-        hue = (hue + 1) % 360
-        local r = math.floor(math.sin(math.rad(hue)) * 127 + 128)
-        local g = math.floor(math.sin(math.rad(hue + 120)) * 127 + 128)
-        local b = math.floor(math.sin(math.rad(hue + 240)) * 127 + 128)
-        
-        FOVCircle.Color = Color3.fromRGB(r, g, b)
+    -- AUTO TELEPORT ULTRA RÁPIDO
+    spawn(function()
+        while true do
+            if Settings.AutoTeleport.Enabled and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                local myHRP = LocalPlayer.Character.HumanoidRootPart
+                
+                -- Pega todos os players válidos
+                for _, player in pairs(Players:GetPlayers()) do
+                    if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                        local targetHRP = player.Character.HumanoidRootPart
+                        
+                        -- Teleporte INSTANTÂNEO sem delay
+                        myHRP.CFrame = targetHRP.CFrame * CFrame.new(0, 2, 0) -- Ligeiramente acima
+                        
+                        -- Delay configurável entre players
+                        task.wait(Settings.AutoTeleport.Delay)
+                        break
+                    end
+                end
+            end
+            task.wait(0.1) -- Loop muito mais rápido
+        end
     end)
 
-    -- ═══════════════════════════════════════════════════
-    --                      GUI DO HUB
-    -- ═══════════════════════════════════════════════════
+    -- FOV CIRCLE COM GUI (FUNCIONA EM MOBILE!)
+    local FOVCircleGui = Instance.new("ScreenGui")
+    FOVCircleGui.Name = "KakaFOVCircle"
+    FOVCircleGui.ResetOnSpawn = false
+    FOVCircleGui.IgnoreGuiInset = true
+    FOVCircleGui.Parent = CoreGui
+    
+    local FOVCircle = Instance.new("Frame")
+    FOVCircle.Name = "FOVCircle"
+    FOVCircle.AnchorPoint = Vector2.new(0.5, 0.5)
+    FOVCircle.Position = UDim2.new(0.5, 0, 0.5, 0)
+    FOVCircle.Size = UDim2.new(0, Settings.Aimbot.FOV * 2, 0, Settings.Aimbot.FOV * 2)
+    FOVCircle.BackgroundTransparency = 1
+    FOVCircle.Parent = FOVCircleGui
+    
+    local FOVCorner = Instance.new("UICorner")
+    FOVCorner.CornerRadius = UDim.new(1, 0)
+    FOVCorner.Parent = FOVCircle
+    
+    local FOVStroke = Instance.new("UIStroke")
+    FOVStroke.Thickness = 3
+    FOVStroke.Transparency = 0
+    FOVStroke.Parent = FOVCircle
+    
+    -- Rainbow effect
+    local hue = 0
+    spawn(function()
+        while true do
+            if FOVCircleGui and FOVCircleGui.Parent then
+                hue = (hue + 1) % 360
+                FOVStroke.Color = Color3.fromHSV(hue / 360, 1, 1)
+                
+                -- Atualiza tamanho do FOV
+                FOVCircle.Size = UDim2.new(0, Settings.Aimbot.FOV * 2, 0, Settings.Aimbot.FOV * 2)
+                
+                task.wait(0.03) -- ~30 FPS para rainbow
+            else
+                break
+            end
+        end
+    end)
 
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "KakaHubV4"
     ScreenGui.ResetOnSpawn = false
-    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     ScreenGui.Parent = LocalPlayer.PlayerGui
 
     local MainFrame = Instance.new("Frame")
-    MainFrame.Name = "MainFrame"
-    MainFrame.Size = UDim2.new(0, 450, 0, 580)
-    MainFrame.Position = UDim2.new(0.5, -225, 0.5, -290)
+    MainFrame.Size = UDim2.new(0, 450, 0, 650) -- Aumentado para caber mensagem
+    MainFrame.Position = UDim2.new(0.5, -225, 0.5, -325)
     MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
     MainFrame.BorderSizePixel = 0
     MainFrame.Active = true
     MainFrame.Draggable = true
     MainFrame.Visible = false
     MainFrame.Parent = ScreenGui
-
-    local MainCorner = Instance.new("UICorner")
-    MainCorner.CornerRadius = UDim.new(0, 15)
-    MainCorner.Parent = MainFrame
+    Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 15)
+    
+    -- CORAÇÕES ANIMADOS NO FUNDO
+    local function CreateHeart(parent, size, position)
+        local heart = Instance.new("TextLabel")
+        heart.Size = UDim2.new(0, size, 0, size)
+        heart.Position = position
+        heart.BackgroundTransparency = 1
+        heart.Text = "❤️"
+        heart.TextSize = size
+        heart.TextTransparency = 0.7
+        heart.ZIndex = 0
+        heart.Parent = parent
+        
+        -- Animação de pulsar
+        spawn(function()
+            while heart and heart.Parent do
+                heart.TextTransparency = 0.7
+                task.wait(0.5)
+                heart.TextTransparency = 0.9
+                task.wait(0.5)
+            end
+        end)
+        
+        return heart
+    end
+    
+    -- Criar vários corações no fundo
+    CreateHeart(MainFrame, 40, UDim2.new(0, 20, 0, 100))
+    CreateHeart(MainFrame, 35, UDim2.new(1, -60, 0, 150))
+    CreateHeart(MainFrame, 30, UDim2.new(0, 30, 0, 400))
+    CreateHeart(MainFrame, 45, UDim2.new(1, -70, 0, 450))
+    CreateHeart(MainFrame, 25, UDim2.new(0.5, -15, 0, 250))
 
     local Header = Instance.new("Frame")
     Header.Size = UDim2.new(1, 0, 0, 60)
-    Header.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+    Header.BackgroundColor3 = Color3.fromRGB(255, 105, 180) -- Rosa pink romântico
     Header.BorderSizePixel = 0
     Header.Parent = MainFrame
-
-    local HeaderCorner = Instance.new("UICorner")
-    HeaderCorner.CornerRadius = UDim.new(0, 15)
-    HeaderCorner.Parent = Header
+    Instance.new("UICorner", Header).CornerRadius = UDim.new(0, 15)
 
     local HeaderFix = Instance.new("Frame")
     HeaderFix.Size = UDim2.new(1, 0, 0, 15)
     HeaderFix.Position = UDim2.new(0, 0, 1, -15)
-    HeaderFix.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
+    HeaderFix.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
     HeaderFix.BorderSizePixel = 0
     HeaderFix.Parent = Header
 
@@ -921,7 +634,7 @@ StartKeySystem(function()
     Title.Size = UDim2.new(1, -20, 1, 0)
     Title.Position = UDim2.new(0, 10, 0, 0)
     Title.BackgroundTransparency = 1
-    Title.Text = "🔥 KAKA HUB V4"
+    Title.Text = "💕 KAKA HUB V4 💕"
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
     Title.TextSize = 28
     Title.Font = Enum.Font.GothamBold
@@ -937,11 +650,10 @@ StartKeySystem(function()
     CloseButton.TextSize = 20
     CloseButton.Font = Enum.Font.GothamBold
     CloseButton.Parent = Header
-
     Instance.new("UICorner", CloseButton).CornerRadius = UDim.new(0, 10)
 
     local ContentFrame = Instance.new("ScrollingFrame")
-    ContentFrame.Size = UDim2.new(1, -20, 1, -80)
+    ContentFrame.Size = UDim2.new(1, -20, 1, -170) -- Reduzido para dar espaço à mensagem
     ContentFrame.Position = UDim2.new(0, 10, 0, 70)
     ContentFrame.BackgroundTransparency = 1
     ContentFrame.BorderSizePixel = 0
@@ -958,7 +670,6 @@ StartKeySystem(function()
         section.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
         section.BorderSizePixel = 0
         section.Parent = ContentFrame
-        
         Instance.new("UICorner", section).CornerRadius = UDim.new(0, 8)
         
         local label = Instance.new("TextLabel")
@@ -971,8 +682,6 @@ StartKeySystem(function()
         label.Font = Enum.Font.GothamBold
         label.TextXAlignment = Enum.TextXAlignment.Left
         label.Parent = section
-        
-        return section
     end
 
     local function CreateToggle(name, default, callback)
@@ -981,7 +690,6 @@ StartKeySystem(function()
         toggle.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
         toggle.BorderSizePixel = 0
         toggle.Parent = ContentFrame
-        
         Instance.new("UICorner", toggle).CornerRadius = UDim.new(0, 8)
         
         local label = Instance.new("TextLabel")
@@ -1004,19 +712,15 @@ StartKeySystem(function()
         button.TextSize = 14
         button.Font = Enum.Font.GothamBold
         button.Parent = toggle
-        
         Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
         
         local enabled = default
-        
         button.MouseButton1Click:Connect(function()
             enabled = not enabled
             button.BackgroundColor3 = enabled and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(200, 0, 0)
             button.Text = enabled and "ON" or "OFF"
             callback(enabled)
         end)
-        
-        return toggle
     end
 
     local function CreateSlider(name, min, max, default, callback)
@@ -1025,7 +729,6 @@ StartKeySystem(function()
         slider.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
         slider.BorderSizePixel = 0
         slider.Parent = ContentFrame
-        
         Instance.new("UICorner", slider).CornerRadius = UDim.new(0, 8)
         
         local label = Instance.new("TextLabel")
@@ -1045,7 +748,6 @@ StartKeySystem(function()
         sliderBar.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
         sliderBar.BorderSizePixel = 0
         sliderBar.Parent = slider
-        
         Instance.new("UICorner", sliderBar).CornerRadius = UDim.new(1, 0)
         
         local sliderFill = Instance.new("Frame")
@@ -1053,7 +755,6 @@ StartKeySystem(function()
         sliderFill.BackgroundColor3 = Color3.fromRGB(255, 0, 150)
         sliderFill.BorderSizePixel = 0
         sliderFill.Parent = sliderBar
-        
         Instance.new("UICorner", sliderFill).CornerRadius = UDim.new(1, 0)
         
         local sliderButton = Instance.new("TextButton")
@@ -1063,219 +764,155 @@ StartKeySystem(function()
         sliderButton.Parent = sliderBar
         
         local dragging = false
-        
-        sliderButton.MouseButton1Down:Connect(function()
-            dragging = true
-        end)
-        
+        sliderButton.MouseButton1Down:Connect(function() dragging = true end)
         UserInputService.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                dragging = false
-            end
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
         end)
         
-        sliderButton.MouseMoved:Connect(function(x, y)
+        sliderButton.MouseMoved:Connect(function()
             if dragging then
                 local mousePos = UserInputService:GetMouseLocation().X
-                local sliderPos = sliderBar.AbsolutePosition.X
-                local sliderSize = sliderBar.AbsoluteSize.X
-                
-                local value = math.clamp((mousePos - sliderPos) / sliderSize, 0, 1)
+                local value = math.clamp((mousePos - sliderBar.AbsolutePosition.X) / sliderBar.AbsoluteSize.X, 0, 1)
                 local actualValue = math.floor(min + (max - min) * value)
-                
                 sliderFill.Size = UDim2.new(value, 0, 1, 0)
                 label.Text = name .. ": " .. actualValue
-                
                 callback(actualValue)
             end
         end)
-        
-        return slider
     end
 
-    local function CreateDropdown(name, options, callback)
-        local dropdown = Instance.new("Frame")
-        dropdown.Size = UDim2.new(1, -10, 0, 40)
-        dropdown.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
-        dropdown.BorderSizePixel = 0
-        dropdown.Parent = ContentFrame
-        
-        Instance.new("UICorner", dropdown).CornerRadius = UDim.new(0, 8)
-        
-        local label = Instance.new("TextLabel")
-        label.Size = UDim2.new(0.4, 0, 1, 0)
-        label.Position = UDim2.new(0, 10, 0, 0)
-        label.BackgroundTransparency = 1
-        label.Text = name
-        label.TextColor3 = Color3.fromRGB(255, 255, 255)
-        label.TextSize = 14
-        label.Font = Enum.Font.Gotham
-        label.TextXAlignment = Enum.TextXAlignment.Left
-        label.Parent = dropdown
-        
-        local button = Instance.new("TextButton")
-        button.Size = UDim2.new(0.5, -20, 0, 30)
-        button.Position = UDim2.new(0.5, 10, 0.5, -15)
-        button.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
-        button.Text = "Selecionar"
-        button.TextColor3 = Color3.fromRGB(255, 255, 255)
-        button.TextSize = 13
-        button.Font = Enum.Font.Gotham
-        button.Parent = dropdown
-        
-        Instance.new("UICorner", button).CornerRadius = UDim.new(0, 6)
-        
-        local dropdownList = Instance.new("Frame")
-        dropdownList.Size = UDim2.new(1, 0, 0, #options * 35)
-        dropdownList.Position = UDim2.new(0, 0, 1, 5)
-        dropdownList.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
-        dropdownList.BorderSizePixel = 0
-        dropdownList.Visible = false
-        dropdownList.ZIndex = 10
-        dropdownList.Parent = dropdown
-        
-        Instance.new("UICorner", dropdownList).CornerRadius = UDim.new(0, 8)
-        
-        local listLayout = Instance.new("UIListLayout")
-        listLayout.Padding = UDim.new(0, 5)
-        listLayout.Parent = dropdownList
-        
-        button.MouseButton1Click:Connect(function()
-            dropdownList.Visible = not dropdownList.Visible
-        end)
-        
-        for _, option in pairs(options) do
-            local optionButton = Instance.new("TextButton")
-            optionButton.Size = UDim2.new(1, -10, 0, 30)
-            optionButton.BackgroundColor3 = Color3.fromRGB(50, 50, 70)
-            optionButton.Text = option
-            optionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-            optionButton.TextSize = 13
-            optionButton.Font = Enum.Font.Gotham
-            optionButton.Parent = dropdownList
-            
-            Instance.new("UICorner", optionButton).CornerRadius = UDim.new(0, 6)
-            
-            optionButton.MouseButton1Click:Connect(function()
-                button.Text = option
-                dropdownList.Visible = false
-                callback(option)
-            end)
-        end
-        
-        return dropdown
-    end
-
-    -- Criar GUI do Hub
     CreateSection("🎯 AIMBOT")
+    CreateToggle("Aimbot", false, function(enabled) Settings.Aimbot.Enabled = enabled end)
+    CreateToggle("Team Check", true, function(enabled) Settings.Aimbot.TeamCheck = enabled end)
+    CreateSlider("FOV Circle", 50, 500, 150, function(value) Settings.Aimbot.FOV = value end)
+    
+    CreateSection("👁️ ESP (Loop Automático)")
+    CreateToggle("ESP", false, function(enabled) Settings.ESP.Enabled = enabled end)
+    
+    CreateSection("🚁 AUTO TELEPORT")
+    CreateToggle("Auto TP Players", false, function(enabled) Settings.AutoTeleport.Enabled = enabled end)
+    CreateSlider("Delay (segundos)", 0.5, 10, 2, function(value) Settings.AutoTeleport.Delay = value end)
 
-    CreateToggle("Aimbot", false, function(enabled)
-        Settings.Aimbot.Enabled = enabled
-    end)
-
-    CreateToggle("Team Check (Anti-Aliado)", true, function(enabled)
-        Settings.Aimbot.TeamCheck = enabled
-    end)
-
-    CreateSlider("FOV Circle", 50, 500, 150, function(value)
-        Settings.Aimbot.FOV = value
-    end)
-
-    CreateSection("👁️ ESP")
-
-    CreateToggle("ESP", false, function(enabled)
-        Settings.ESP.Enabled = enabled
-    end)
-
-    CreateSection("🚀 TELEPORT")
-
-    local playerNames = {}
-    for _, player in pairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer then
-            table.insert(playerNames, player.Name)
+    -- MENSAGEM ROMÂNTICA NO FINAL
+    local RomanticMessage = Instance.new("Frame")
+    RomanticMessage.Size = UDim2.new(1, -40, 0, 80)
+    RomanticMessage.Position = UDim2.new(0, 20, 1, -90)
+    RomanticMessage.BackgroundColor3 = Color3.fromRGB(255, 105, 180)
+    RomanticMessage.BorderSizePixel = 0
+    RomanticMessage.ZIndex = 10
+    RomanticMessage.Parent = MainFrame
+    Instance.new("UICorner", RomanticMessage).CornerRadius = UDim.new(0, 12)
+    
+    -- Borda brilhante
+    local MessageStroke = Instance.new("UIStroke")
+    MessageStroke.Color = Color3.fromRGB(255, 182, 193)
+    MessageStroke.Thickness = 2
+    MessageStroke.Parent = RomanticMessage
+    
+    -- Texto "Script feito por Carlos"
+    local CreditText = Instance.new("TextLabel")
+    CreditText.Size = UDim2.new(1, -20, 0, 35)
+    CreditText.Position = UDim2.new(0, 10, 0, 10)
+    CreditText.BackgroundTransparency = 1
+    CreditText.Text = "💻 Script feito por Carlos"
+    CreditText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CreditText.TextSize = 16
+    CreditText.Font = Enum.Font.GothamBold
+    CreditText.TextXAlignment = Enum.TextXAlignment.Center
+    CreditText.Parent = RomanticMessage
+    
+    -- Texto "Te amo Sara"
+    local LoveText = Instance.new("TextLabel")
+    LoveText.Size = UDim2.new(1, -20, 0, 35)
+    LoveText.Position = UDim2.new(0, 10, 0, 35)
+    LoveText.BackgroundTransparency = 1
+    LoveText.Text = "💕 Te amo Sara 💕"
+    LoveText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    LoveText.TextSize = 18
+    LoveText.Font = Enum.Font.GothamBold
+    LoveText.TextXAlignment = Enum.TextXAlignment.Center
+    LoveText.Parent = RomanticMessage
+    
+    -- Efeito de pulsar na mensagem
+    spawn(function()
+        while RomanticMessage and RomanticMessage.Parent do
+            TweenService:Create(RomanticMessage, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), 
+                {BackgroundColor3 = Color3.fromRGB(255, 182, 193)}):Play()
+            task.wait(1)
+            TweenService:Create(RomanticMessage, TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), 
+                {BackgroundColor3 = Color3.fromRGB(255, 105, 180)}):Play()
+            task.wait(1)
         end
-    end
-
-    CreateDropdown("Teleportar para", playerNames, function(selectedName)
-        for _, player in pairs(Players:GetPlayers()) do
-            if player.Name == selectedName then
-                Settings.Teleport.SelectedPlayer = player
-                
-                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                        LocalPlayer.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame
-                    end
-                end
-                break
-            end
-        end
     end)
 
-    CloseButton.MouseButton1Click:Connect(function()
-        MainFrame.Visible = false
-    end)
+    CloseButton.MouseButton1Click:Connect(function() MainFrame.Visible = false end)
 
-    -- ═══════════════════════════════════════════════════
-    --      🖐️ SISTEMA DE 3 DEDOS SIMULTÂNEOS (CORRIGIDO)
-    -- ═══════════════════════════════════════════════════
+    local hubTouches, hubDebounce = {}, false
+    local destroyTouches = {}
 
-    local activeTouches = {}
-    local touchDebounce = false
-
-    local function countActiveTouches()
-        local count = 0
-        for touch, active in pairs(activeTouches) do
-            if active then
-                count = count + 1
-            end
+    UserInputService.TouchStarted:Connect(function(touch)
+        if not IsTouchOnButton(touch.Position) then 
+            hubTouches[touch] = true 
+            destroyTouches[touch] = true
         end
-        return count
-    end
-
-    -- Detectar quando toca na tela
-    UserInputService.TouchStarted:Connect(function(touch, gameProcessed)
-        -- Marcar toque como ativo
-        activeTouches[touch] = true
         
-        -- Verificar se tem 3 ou mais dedos
-        if countActiveTouches() >= 3 and not touchDebounce then
-            touchDebounce = true
-            MainFrame.Visible = not MainFrame.Visible
+        -- Conta toques para abrir/fechar hub (3 dedos)
+        local hubCount = 0
+        for _, active in pairs(hubTouches) do if active then hubCount = hubCount + 1 end end
+        
+        -- Conta toques para destruir (6 dedos)
+        local destroyCount = 0
+        for _, active in pairs(destroyTouches) do if active then destroyCount = destroyCount + 1 end end
+        
+        -- DESTRUIR COM 6 DEDOS
+        if destroyCount >= 6 then
+            print("🗑️ Destruindo KAKA HUB V4...")
             
-            print("✅ Hub " .. (MainFrame.Visible and "aberto" or "fechado") .. " com 3 dedos!")
+            -- Destroi GUI do Hub
+            if ScreenGui then
+                ScreenGui:Destroy()
+            end
             
-            -- Resetar após 1 segundo
-            task.spawn(function()
-                task.wait(1)
-                touchDebounce = false
-            end)
-        end
-    end)
-
-    -- Detectar quando tira o dedo da tela
-    UserInputService.TouchEnded:Connect(function(touch, gameProcessed)
-        activeTouches[touch] = false
-    end)
-
-    -- Limpar toques inativos periodicamente
-    task.spawn(function()
-        while true do
-            task.wait(2)
-            for touch, active in pairs(activeTouches) do
-                if not active then
-                    activeTouches[touch] = nil
+            -- Destroi FOV Circle
+            if FOVCircleGui then
+                FOVCircleGui:Destroy()
+            end
+            
+            -- Desativa Aimbot
+            Settings.Aimbot.Enabled = false
+            if aimbotConnection then
+                aimbotConnection:Disconnect()
+            end
+            
+            -- Desativa ESP
+            Settings.ESP.Enabled = false
+            for player, esp in pairs(ESPObjects) do
+                for _, drawing in pairs(esp) do
+                    drawing:Remove()
                 end
             end
+            ESPObjects = {}
+            
+            -- Desativa Auto Teleport
+            Settings.AutoTeleport.Enabled = false
+            
+            print("✅ Hub destruído com sucesso!")
+            return
+        end
+        
+        -- Abrir/Fechar Hub com 3 dedos
+        if hubCount >= 3 and hubCount < 6 and not hubDebounce then
+            hubDebounce = true
+            MainFrame.Visible = not MainFrame.Visible
+            task.wait(1)
+            hubDebounce = false
         end
     end)
 
-    -- ═══════════════════════════════════════════════════
-    --                 MENSAGENS NO CONSOLE
-    -- ═══════════════════════════════════════════════════
+    UserInputService.TouchEnded:Connect(function(touch) 
+        hubTouches[touch] = false 
+        destroyTouches[touch] = false
+    end)
 
     print("✅ KAKA HUB V4 carregado!")
-    print("🎯 Aimbot: OFF (ative no hub)")
-    print("👁️ ESP: OFF (ative no hub)")
-    print("🖐️ Use 3 dedos simultâneos para abrir o hub!")
-    print("⚡ Team Check: " .. (HasMultipleTeams() and "Múltiplos times detectados!" or "Modo FFA detectado!"))
 end)
